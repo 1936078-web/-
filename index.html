@@ -62,7 +62,7 @@ footer{text-align:center;color:#8a99a8;font-size:10px;padding:15px}
 .racerLabel{position:absolute;background:#172535dd;color:#fff;border-radius:5px;padding:2px 5px;font-size:9px;white-space:nowrap;transform:translate(18px,-2px);z-index:7}
 .skillPop{position:absolute;z-index:10;background:#fff8da;color:#7b5a10;border:1px solid #e3c66d;border-radius:999px;padding:3px 6px;font-weight:900;font-size:10px;animation:skillPop .9s ease-out forwards;pointer-events:none}
 @keyframes skillPop{0%{opacity:0;transform:translateY(5px) scale(.8)}20%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-20px) scale(1.04)}}
-.commentary{margin-top:10px;background:#101b29;color:white;border-radius:12px;padding:9px 12px;font-size:13px;min-height:38px}
+.commentary{margin-top:10px;background:#101b29;color:white;border-radius:12px;padding:9px 12px;font-size:13px;min-height:42px;line-height:1.55}
 .positions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.posCard{background:#f5f7fa;border:1px solid var(--line);padding:8px;border-radius:10px;font-size:11px}.posCard b{display:block;font-size:12px}
 .resultBanner{margin-top:11px;border-radius:12px;padding:12px;text-align:center;background:#fff6d9;border:1px solid #e9d091;font-weight:950}
 .staffGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.staff{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--surface2)}
@@ -117,7 +117,7 @@ footer{text-align:center;color:#8a99a8;font-size:10px;padding:15px}
       <button class="green" id="restBtn">🛌 休養</button>
       <button id="feedBtn">🥕 特製にんじん ¥1,000</button>
       <button class="blue" id="saveBtn">💾 セーブ</button>
-      <button class="tiny soft" id="resetBtn">初期化</button>
+      <button class="gold" id="awakeningBtn">🔥 覚醒チャレンジ <span class="small">1日1回・成功率1%</span></button><button class="tiny soft" id="resetBtn">初期化</button>
     </div>
   </div>
 
@@ -245,7 +245,8 @@ function normalize(){
  s.selected=Math.min(s.selected||0,s.horses.length-1);s.money=s.money??50000;s.day=s.day||1;s.wins=s.wins||0;s.places=s.places||0;s.score=s.score||0;s.points=s.points||0;
  s.items=s.items||{carrot:0,book:0,shoe:0};s.predictionDone=s.predictionDone||{};s.history=s.history||[];
  s.jockeyId=s.jockeyId||'j1';s.trainerId=s.trainerId||'t1';s.selectedSire=s.selectedSire||'s1';s.facilities=s.facilities||{track:0,stable:0};
- s.horses.forEach(h=>{h.stats=h.stats||{speed:45,stamina:45,power:45,guts:45,smart:45};h.exp=h.exp||0;h.level=h.level||1;h.stamina=h.stamina??100;h.condition=h.condition??78;h.fatigue=h.fatigue??8;h.races=h.races||0;h.wins=h.wins||0;h.earn=h.earn||0;h.sex=h.sex||'牡';h.foal=!!h.foal;h.skills=Array.isArray(h.skills)&&h.skills.length?h.skills:randomSkills(2)});
+ s.horses.forEach(h=>{h.stats=h.stats||{speed:45,stamina:45,power:45,guts:45,smart:45};h.exp=h.exp||0;h.level=h.level||1;h.stamina=h.stamina??100;h.condition=h.condition??78;h.fatigue=h.fatigue??8;h.races=h.races||0;h.wins=h.wins||0;h.earn=h.earn||0;h.sex=h.sex||'牡';h.foal=!!h.foal;h.skills=Array.isArray(h.skills)&&h.skills.length?h.skills:randomSkills(2);
+  h.trainingLoad=h.trainingLoad||0;h.awakeningDay=h.awakeningDay||0;h.awakeningUsed=!!h.awakeningUsed});
 }
 normalize();
 const online={event:'秋のスピード育成キャンペーン',bonus:1.15,news:['オンライン情報を読み込めませんでした。ローカルでも全機能をプレイできます。'],leaderboard:[['Riku','1560'],['HorseFan','1420'],['Taka','1280'],['Runner','1120'],['UmaMaster','980']],tournament:{name:'NEXTワールドカップ',goal:'今週の通算賞金と大会スコアで競争',bonus:1.2}};
@@ -277,7 +278,7 @@ function render(){
  document.getElementById('comboNum').textContent=combo;document.getElementById('comboFill').style.width=Math.min(100,combo*4)+'%';
  document.getElementById('eventBadge').textContent=online.event||'通常開催';
  renderRaces();renderBreeding();renderStable();renderStaff();renderShop();renderRecord();renderTournament();
- document.getElementById('goal').innerHTML='<b>次の目標</b><div class="small muted" style="margin-top:5px">'+goalText(h)+'</div>';
+ document.getElementById('goal').innerHTML='<b>次の目標</b><div class="small muted" style="margin-top:5px">'+goalText(h)+'</div><div class="small muted" style="margin-top:7px">調教負荷 '+Math.round(h.trainingLoad||0)+'/40</div>';
  document.getElementById('sideHistory').innerHTML=s.history.slice(0,10).map(x=>'• '+x).join('<br>');
 }
 function goalText(h){if(h.age<3)return'Lv.'+(h.level+1)+'を目指して育成。3歳になればG2クラシック杯へ挑戦できます。';if(s.wins<3)return'まずは3勝して「ベテラン馬主」を目指そう。';if(!h.foal && !s.horses.some(x=>x.sex==='牝'&&x.age>=3))return'繁殖牝馬を迎えて血統づくりを始めよう。';return'G1・海外レースで通算賞金を伸ばそう。'}
@@ -287,18 +288,50 @@ function tapTrain(){
  if(h.stamina<2){toast('❤️ 体力不足。休養しよう');return}
  if(lastTap && now-lastTap>1400)combo=0;
  lastTap=now;combo++;clearTimeout(comboTimer);comboTimer=setTimeout(()=>{combo=0;render()},1400);
+
  const type=['speed','stamina','power','guts','smart'][Math.floor(Math.random()*5)];
- const streak=Math.min(2.8,1+combo*.035),conditionBonus=h.condition>=60?1:.72;
+ const streak=Math.min(1.75,1+combo*.018);
+ const fatiguePenalty=h.fatigue<35?1:h.fatigue<60?.72:h.fatigue<80?.45:.20;
+ const loadPenalty=h.trainingLoad<12?1:h.trainingLoad<22?.75:h.trainingLoad<30?.45:.18;
+ const conditionBonus=h.condition>=75?1.05:h.condition>=50?0.88:.65;
  const eventBonus=online.bonus||1;
- h.stats[type]+=0.42*streak*conditionBonus*eventBonus;
- h.exp+=(1+Math.floor(streak));
- h.stamina-=.7;h.fatigue=Math.min(100,h.fatigue+.45);h.condition=Math.max(1,h.condition-.1);
- if(combo%10===0){h.stats[type]+=1.5;toast('🔥 '+combo+'コンボ！ '+type+'が大きく成長！')}
- if(h.exp>=18+h.level*7){h.exp=0;h.level++;if(h.level%7===0&&h.age<6)h.age++;toast('🎉 Lv.'+h.level+'に成長！')}
+
+ h.stats[type]+=0.105*streak*fatiguePenalty*loadPenalty*conditionBonus*eventBonus;
+ h.exp+=0.42*streak*loadPenalty;
+ h.stamina-=0.95;h.fatigue=Math.min(100,h.fatigue+0.72);h.trainingLoad=Math.min(40,h.trainingLoad+0.8);h.condition=Math.max(1,h.condition-0.16);
+
+ if(combo%15===0){h.stats[type]+=0.35;toast('🔥 '+combo+'コンボ！ 小さな成長ボーナス！')}
+ if(h.exp>=42+h.level*18){
+   h.exp=0;h.level++;
+   if(h.level%8===0&&h.age<6)h.age++;
+   toast('🎉 Lv.'+h.level+'に成長！ 必要な育成量が増えます');
+ }
  s.score=Math.max(s.score,Math.floor(totalPower(h)*10+h.level*50+s.wins*200));
  save();render();
 }
-function rest(){const h=horse();h.stamina=Math.min(100,h.stamina+35);h.fatigue=Math.max(0,h.fatigue-34);h.condition=Math.min(100,h.condition+13);s.day++;combo=0;lastTap=0;log('休養。疲労が抜けた。');randomEvent();save();render();toast('🛌 休養してDay '+s.day+'へ')}
+function awakeningChallenge(){
+ const h=horse();
+ if(h.awakeningDay===s.day || h.awakeningUsed){toast('🔥 今日の覚醒チャレンジは使用済み');return}
+ if(h.condition<80||h.fatigue>35||h.stamina<70){toast('覚醒条件：調子80以上・疲労35以下・体力70以上');return}
+ h.awakeningDay=s.day;
+ h.stamina=Math.max(0,h.stamina-70);h.fatigue=Math.min(100,h.fatigue+25);h.condition=Math.max(1,h.condition-15);
+ const success=Math.random()<0.01;
+ if(success){
+   h.awakeningUsed=true;
+   Object.keys(h.stats).forEach(k=>h.stats[k]=99);
+   h.level=Math.max(h.level,20);h.exp=0;
+   h.skills=[...skillCatalog.map(x=>x.id)];
+   h.rarity='LEGEND';
+   s.score+=5000;
+   log('🔥 奇跡の覚醒成功！ '+h.name+'が伝説級の能力を獲得！');
+   toast('🌟 1%の奇跡！ 伝説の最強馬へ覚醒！');
+ }else{
+   log('🔥 覚醒チャレンジ失敗。');
+   toast('💨 覚醒せず… また別の日に挑戦できます');
+ }
+ save();render();
+}
+function rest(){const h=horse();h.stamina=Math.min(100,h.stamina+42);h.fatigue=Math.max(0,h.fatigue-42);h.condition=Math.min(100,h.condition+16);h.trainingLoad=0;s.day++;combo=0;lastTap=0;log('休養。疲労が抜けた。');randomEvent();save();render();toast('🛌 休養してDay '+s.day+'へ')}
 function feed(){if(s.money<1000){toast('お金が足りません');return}const h=horse();s.money-=1000;h.condition=Math.min(100,h.condition+18);h.stamina=Math.min(100,h.stamina+11);log('特製にんじんでコンディション回復。');save();render();toast('🥕 好調アップ！')}
 function randomEvent(){if(Math.random()>.28)return;const ev=[['晴天トレーニングDAY','今日の育成効率が上昇！'],['蹄のケア','疲労が少し減った。'],['ファンレター','称号ポイントを獲得！'],['臨時CMオファー','賞金相当のボーナスを獲得！']][Math.floor(Math.random()*4)];if(ev[0].includes('育成'))horse().condition=Math.min(100,horse().condition+8);if(ev[0].includes('疲労'))horse().fatigue=Math.max(0,horse().fatigue-10);if(ev[0].includes('ポイント'))s.points+=30;if(ev[0].includes('CM'))s.money+=5000;log('🎲 ランダムイベント「'+ev[0]+'」：'+ev[1])}
 
@@ -420,70 +453,130 @@ function startRace(r){
  if(h.stamina<30){toast('体力不足。休養してください');return}
  const j=jockeys.find(x=>x.id===s.jockeyId),t=trainers.find(x=>x.id===s.trainerId);
  const names=[h.name,'ブルーコメット','ミラクルスター','サンダーラン','ロイヤルキング','ホワイトフェザー','レッドブレイズ','グリーンリーフ'].slice(0,8);
+ const styles=['逃げ','先行','差し','差し','追込','先行','追込','逃げ'];
  const runners=names.map((name,i)=>{
    const isPlayer=i===0;
+   const base=isPlayer?totalPower(h)+j.boost+t.boost:72+Math.random()*54;
+   const style=styles[i];
+   const energy=isPlayer?h.stats.stamina*1.5:70+Math.random()*30;
    return {
-     name,isPlayer,icon:isPlayer?h.icon:'🐎',
-     score:(isPlayer?totalPower(h)+j.boost+t.boost:70+Math.random()*65)*(0.96+Math.random()*.10),
-     progress:0,style:['逃げ','先行','差し','追込'][i%4],lane:i,
-     skills:isPlayer?(h.skills||[]):randomSkills(2),px:0,py:0,lastFlash:0,turboUsed:false,skillFlash:''
+     name,isPlayer,icon:isPlayer?h.icon:'🐎',score:base,style,
+     progress:0,energy,form:0.92+Math.random()*.16,
+     lane:i,skills:isPlayer?(h.skills||[]):randomSkills(2),
+     px:0,py:0,lastFlash:0,turboUsed:false,skillFlash:'',
+     incident:null,incidentUntil:0,momentum:0
    };
  });
  const modal=document.getElementById('modal'),back=document.getElementById('modalBack');
- modal.innerHTML='<div class="modalHead"><h2>🏁 LIVE RACE — '+r.name+'</h2><button class="tiny soft" id="closeRace">閉じる</button></div><div class="small muted">'+r.country+' / '+r.region+' / '+r.distance+'m / '+r.surface+' / '+r.grade+'</div><div class="raceScene"><div class="raceCourse" id="raceCourse"><div class="raceLabel">FINISH ⬛⬜</div><div class="ovalOuter"></div><div class="ovalInner"></div><div class="rail"></div><div class="finishMark"></div><div class="startMark"></div>'+runners.map(x=>'<div class="racer" id="runner-'+x.lane+'">'+x.icon+'<span class="racerLabel" id="label-'+x.lane+'">'+(x.lane+1)+'番 '+x.name+'</span></div>').join('')+'</div><div class="commentary" id="commentary">ゲートイン完了。画面下のスタートからコースを1周します。</div><div class="positions" id="positions"></div></div><div id="raceResult"></div>';
+ modal.innerHTML='<div class="modalHead"><h2>🏁 LIVE RACE — '+r.name+'</h2><button class="tiny soft" id="closeRace">閉じる</button></div><div class="small muted">'+r.country+' / '+r.region+' / '+r.distance+'m / '+r.surface+' / '+r.grade+'　　⏱ 長めのレース演出</div><div class="raceScene"><div class="raceCourse" id="raceCourse"><div class="raceLabel">FINISH ⬛⬜</div><div class="ovalOuter"></div><div class="ovalInner"></div><div class="rail"></div><div class="finishMark"></div><div class="startMark"></div>'+runners.map(x=>'<div class="racer" id="runner-'+x.lane+'">'+x.icon+'<span class="racerLabel" id="label-'+x.lane+'">'+(x.lane+1)+'番 '+x.name+'</span></div>').join('')+'</div><div class="commentary" id="commentary">ゲートイン。スタート後はペース・位置取り・仕掛けで展開が変わります。</div><div class="positions" id="positions"></div></div><div id="raceResult"></div>';
  back.classList.add('show');
  document.getElementById('closeRace').onclick=()=>back.classList.remove('show');
 
  const course=document.getElementById('raceCourse');
- let start=performance.now()+1000,lastComment=-1,lastFrame=start,done=false;
+ let start=performance.now()+1600,lastComment=-1,lastFrame=start,done=false,announced={};
+
+ function segment(progress){
+   if(progress<0.08)return {name:'スタート',base:1.06,corner:false,straight:true};
+   if(progress<0.25)return {name:'第1コーナー',base:0.90,corner:true,straight:false};
+   if(progress<0.48)return {name:'向正面',base:1.00,corner:false,straight:false};
+   if(progress<0.67)return {name:'第2〜3コーナー',base:0.93,corner:true,straight:false};
+   if(progress<0.82)return {name:'第4コーナー',base:0.91,corner:true,straight:false};
+   return {name:'最後の直線',base:1.09,corner:false,straight:true};
+ }
 
  function place(x){
    const w=course.clientWidth,hh=course.clientHeight,cx=w/2,cy=hh/2;
    const laneOffset=(x.lane-3.5)*7;
    const rx=Math.max(105,w*.37-laneOffset),ry=Math.max(120,hh*.35-laneOffset*.35);
    const theta=Math.PI/2+x.progress*Math.PI*2;
-   x.px=cx+rx*Math.cos(theta)-14;
-   x.py=cy+ry*Math.sin(theta)-14;
+   x.px=cx+rx*Math.cos(theta)-14;x.py=cy+ry*Math.sin(theta)-14;
    const el=document.getElementById('runner-'+x.lane);
    if(el)el.style.transform='translate('+x.px+'px,'+x.py+'px)';
  }
- runners.forEach(place);
+
+ function maybeIncident(x,now,seg){
+   if(x.incidentUntil>now)return;
+   if(Math.random()<0.0009){
+      const roll=Math.random();
+      if(roll<.34){x.incident='かかり';x.incidentUntil=now+900;x.momentum-=.10}
+      else if(roll<.68){x.incident='進路不利';x.incidentUntil=now+850;x.momentum-=.13}
+      else{x.incident='手応え抜群';x.incidentUntil=now+850;x.momentum+=.14}
+      const courseEl=document.getElementById('raceCourse');
+      if(courseEl){const q=document.createElement('div');q.className='skillPop';q.textContent='⚠ '+x.incident;q.style.left=x.px+'px';q.style.top=(x.py-18)+'px';courseEl.appendChild(q);setTimeout(()=>q.remove(),900)}
+   }
+ }
 
  function tick(now){
    if(!back.classList.contains('show')||done)return;
    if(now<start){requestAnimationFrame(tick);return}
    const dt=Math.min(.045,(now-lastFrame)/1000);lastFrame=now;
    const elapsed=(now-start)/1000;
+
    runners.forEach(x=>{
-     const mult=raceSkillEffect(x,x.progress);
-     const fatigue=x.isPlayer?h.fatigue*.0013:0;
-     const speed=(x.score/110)*(1-fatigue)*mult;
-     x.progress=Math.min(1,x.progress+dt*speed*.075);
+     const seg=segment(x.progress);
+     maybeIncident(x,now,seg);
+
+     let mult=seg.base;
+     const corner=seg.corner,straight=seg.straight;
+     if(x.skills.includes('corner')&&corner){mult*=1.14;x.skillFlash='コーナー巧者'}
+     if(x.skills.includes('start')&&x.progress<.09){mult*=1.14;x.skillFlash='好スタート'}
+     if(x.skills.includes('stretch')&&x.progress>.82){mult*=1.18;x.skillFlash='直線加速'}
+     if(x.skills.includes('stamina')&&x.progress>.58){mult*=1.11;x.skillFlash='ロングスパート'}
+     if(x.skills.includes('turbo')&&x.progress>.73&&!x.turboUsed){mult*=1.26;x.turboUsed=true;x.skillFlash='瞬発力'}
+
+     // 脚質によるペース配分
+     if(x.style==='逃げ'){if(x.progress<.27)mult*=1.10;else if(x.progress<.68)mult*=.97}
+     if(x.style==='先行'){if(x.progress<.30)mult*=1.02;else if(x.progress>.72)mult*=1.05}
+     if(x.style==='差し'){if(x.progress<.42)mult*=.94;else if(x.progress>.60)mult*=1.07}
+     if(x.style==='追込'){if(x.progress<.58)mult*=.86;else mult*=1.14}
+
+     // 道中のスタミナ消費と残り脚
+     const drain=(0.6+mult*0.16)*(x.style==='逃げ'?1.15:1);
+     x.energy-=drain*dt*8;
+     const energyMult=Math.max(.63,Math.min(1.08,x.energy/90));
+     mult*=energyMult;
+
+     // 小さな位置変動
+     x.momentum+=(Math.random()-.5)*.015;
+     x.momentum*=.985;
+     mult*=1+Math.max(-.08,Math.min(.08,x.momentum));
+
+     if(x.incidentUntil>now)mult*=x.incident==='かかり'?.87:x.incident==='進路不利'?.79:1.12;
+     if(x.incidentUntil<=now)x.incident=null;
+
+     const speed=(x.score/113)*x.form*mult;
+     x.progress=Math.min(1,x.progress+dt*speed*.047);
      place(x);
-     if(x.skillFlash&&now-x.lastFlash>550){x.lastFlash=now;showSkillFlash(course,x)}
+
+     if(x.skillFlash&&now-x.lastFlash>850){
+       x.lastFlash=now;showSkillFlash(course,x);
+     }
    });
 
    const sorted=[...runners].sort((a,b)=>b.progress-a.progress);
-   if(Math.floor(elapsed*2)!==lastComment){
-     lastComment=Math.floor(elapsed*2);
-     const lead=sorted[0],second=sorted[1];
-     let msg=elapsed<1.8?'スタート！ '+lead.name+'が飛び出した！':
-             elapsed<3.8?'第1コーナー！ '+lead.name+'が先頭、'+second.name+'が続く！':
-             elapsed<5.7?'向正面を通過。各馬まだ手応えは十分！':
-             elapsed<7.8?'第3コーナー！ '+(lead.isPlayer?'あなたの馬が進出！':lead.name+'がペースアップ！'):
-             '最後の直線！ ゴールまであとわずか！';
+   if(Math.floor(elapsed)!==lastComment){
+     lastComment=Math.floor(elapsed);
+     const lead=sorted[0],second=sorted[1],seg=segment(lead.progress);
+     let msg='';
+     if(elapsed<3)msg='スタート！ '+lead.name+'が先手を取った。';
+     else if(seg.name==='第1コーナー')msg='第1コーナー！ '+lead.name+'が先頭、'+second.name+'が好位につけています。';
+     else if(seg.name==='向正面')msg='向正面。ペースは'+(lead.style==='逃げ'?'やや速め':'落ち着いた流れ')+'。後方勢もまだ脚を溜めています。';
+     else if(seg.name==='第2〜3コーナー')msg='3コーナーへ！ '+(lead.isPlayer?'あなたの馬がじわっと進出。':'先頭争いはまだ横一線。');
+     else if(seg.name==='第4コーナー')msg='4コーナー！ 各馬が一斉に仕掛ける。';
+     else msg='最後の直線！ '+lead.name+'が抜け出す、'+(second.name)+'が追う！';
      document.getElementById('commentary').textContent=msg;
    }
-   document.getElementById('positions').innerHTML=sorted.slice(0,6).map((x,i)=>'<div class="posCard"><b>'+(i+1)+'着 '+x.name+'</b><span>'+Math.round(x.progress*100)+'%　'+skillNames(x.skills).slice(0,2).join(' / ')+'</span></div>').join('');
+   document.getElementById('positions').innerHTML=sorted.slice(0,6).map((x,i)=>'<div class="posCard"><b>'+(i+1)+'着 '+x.name+'</b><span>'+Math.round(x.progress*100)+'% / '+x.style+' / '+skillNames(x.skills).slice(0,2).join('・')+'</span></div>').join('');
 
+   // 1周完了を明確にゴール条件にする。通常30秒前後。
    if(sorted[0].progress>=1){
      runners.forEach(x=>{x.progress=1;place(x)});
-     document.getElementById('commentary').textContent='🏁 ゴール！ 全馬がゴールラインを通過しました！';
+     document.getElementById('commentary').textContent='🏁 ゴールイン！ 全馬がフィニッシュラインを通過しました！';
      finishRace(r,sorted,j,t);done=true;return;
    }
    requestAnimationFrame(tick);
  }
- requestAnimationFrame(tick);
+ runners.forEach(place);requestAnimationFrame(tick);
 }
 
 function finishRace(r,sorted,j,t){
@@ -496,7 +589,7 @@ function finishRace(r,sorted,j,t){
  save();render();
 }
 
-document.getElementById('tapBtn').onclick=tapTrain;document.getElementById('restBtn').onclick=rest;document.getElementById('feedBtn').onclick=feed;
+document.getElementById('tapBtn').onclick=tapTrain;document.getElementById('awakeningBtn').onclick=awakeningChallenge;document.getElementById('restBtn').onclick=rest;document.getElementById('feedBtn').onclick=feed;
 document.getElementById('saveBtn').onclick=()=>{save();toast('💾 セーブしました')};
 document.getElementById('resetBtn').onclick=()=>{if(confirm('セーブデータを初期化しますか？')){localStorage.removeItem(KEY);location.reload()}};
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();tapTrain()}});

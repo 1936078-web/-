@@ -3,225 +3,428 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>タップ！競走馬オーナーズ</title>
+<title>タップ！競走馬オーナーズ NEXT</title>
 <style>
-:root{--bg:#0e1623;--panel:#162235;--panel2:#1d2d45;--line:#304561;--text:#eef5ff;--muted:#9fb1c8;--gold:#ffd66b;--green:#63e6a2;--red:#ff7d8d;--blue:#75b7ff}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;background:radial-gradient(circle at top,#203451,#0e1623 55%);color:var(--text)}
-button{border:0;border-radius:12px;padding:11px 14px;background:#29415f;color:#fff;font-weight:700;cursor:pointer;transition:.15s;box-shadow:0 4px 0 #18283d}
-button:hover{filter:brightness(1.13);transform:translateY(-1px)}button:active{transform:translateY(2px);box-shadow:none}
-button.primary{background:linear-gradient(135deg,#ffca5b,#ff8f4d);color:#231a0d}button.good{background:linear-gradient(135deg,#54dc99,#2cae7a)}button.warn{background:linear-gradient(135deg,#ff8a98,#d94867)}
-button.small{padding:7px 10px;font-size:12px}
-header{position:sticky;top:0;z-index:5;backdrop-filter:blur(10px);background:#0d1522e8;border-bottom:1px solid #ffffff12}
-.top{max-width:1200px;margin:auto;padding:14px 16px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1.2fr;gap:10px;align-items:center}
-.title{font-size:20px;font-weight:900}.title span{color:var(--gold)}.stat{background:#162235;border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:12px}.stat b{display:block;font-size:15px;margin-top:2px}
-.online{display:flex;gap:7px;align-items:center;justify-content:center}.dot{width:9px;height:9px;border-radius:50%;background:#ff5468;box-shadow:0 0 0 4px #ff546822}.dot.on{background:#54e59f;box-shadow:0 0 0 4px #54e59f22}
-main{max-width:1200px;margin:20px auto;padding:0 16px 40px}.grid{display:grid;grid-template-columns:1.25fr .9fr;gap:16px}.panel{background:linear-gradient(180deg,#17263b,#132033);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 12px 30px #0004}.panel h2{margin:0 0 12px;font-size:18px}.muted{color:var(--muted)}.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.tabs{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}.tab.active{background:#e4b74f;color:#241b08}
-.horseHero{display:grid;grid-template-columns:140px 1fr;gap:16px;align-items:center}.horseAvatar{height:140px;border-radius:18px;background:linear-gradient(145deg,#384d67,#1b2b40);display:grid;place-items:center;font-size:82px;border:1px solid #ffffff14}.horseName{font-size:28px;font-weight:900}.tag{display:inline-block;font-size:11px;padding:4px 7px;border-radius:999px;background:#243953;color:#b9d3ee;margin:2px}.bars{display:grid;gap:7px;margin-top:12px}.bar{display:grid;grid-template-columns:64px 1fr 40px;gap:7px;align-items:center;font-size:12px}.track{height:9px;background:#0d1522;border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#71b4ff,#8d7bff)}
-.bigTap{width:100%;min-height:76px;font-size:23px;margin-top:12px;background:linear-gradient(135deg,#ffda6a,#ff9855);color:#2b1e0a;box-shadow:0 6px 0 #8f5d2f}
-.tapHint{text-align:center;color:#6f89a6;font-size:11px;margin-top:7px}
-.cardGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.miniCard{background:#1b2b42;border:1px solid #304560;border-radius:14px;padding:12px}.miniCard b{font-size:18px}.miniCard small{display:block;color:var(--muted);margin-top:2px}
-.races{display:grid;gap:10px}.race{border:1px solid #304560;background:#192a40;border-radius:14px;padding:12px}.race.locked{opacity:.5}.raceTop{display:flex;justify-content:space-between;gap:8px}.badge{font-size:11px;background:#29415f;border-radius:999px;padding:4px 7px}.prize{color:var(--gold);font-weight:900}
-.shop{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.shop button{width:100%}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:8px 6px;border-bottom:1px solid #ffffff0d;text-align:left}th{color:#9db2cb}
-.notice{background:#132a28;border:1px solid #26715a;color:#b8f3d7;border-radius:12px;padding:10px;font-size:12px}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:#101a29;border:1px solid #42597a;border-radius:999px;padding:10px 18px;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translateX(-50%)}
-.modalBack{position:fixed;inset:0;background:#0009;display:none;place-items:center;z-index:30}.modalBack.show{display:grid}.modal{width:min(760px,calc(100% - 26px));max-height:86vh;overflow:auto;background:#142238;border:1px solid #38506e;border-radius:18px;padding:16px}
-.trackWrap{margin:10px 0;background:#0d1828;border:1px solid #314861;border-radius:16px;padding:14px}.trackLane{height:34px;background:repeating-linear-gradient(90deg,#315b45 0 25px,#2b513e 25px 50px);border-radius:10px;position:relative;overflow:hidden;margin:6px 0}.runner{position:absolute;left:1%;top:1px;font-size:26px;transition:left .25s}.finish{position:absolute;right:15px;top:0;height:100%;border-left:3px dashed #fff9}
-.log{height:140px;overflow:auto;background:#0b1320;border-radius:12px;padding:9px;font-size:12px;line-height:1.7}
-footer{color:#7086a0;text-align:center;font-size:11px;padding:16px}
-@media(max-width:850px){.top{grid-template-columns:1fr 1fr}.title{grid-column:1/-1}.grid{grid-template-columns:1fr}.horseHero{grid-template-columns:100px 1fr}.horseAvatar{height:100px;font-size:62px}.cardGrid,.shop{grid-template-columns:1fr 1fr}}
+:root{
+ --bg:#eef3f8;--surface:#fff;--surface2:#f7f9fc;--line:#d8e0ea;--text:#182433;--muted:#6b7b8e;
+ --green:#16865a;--green2:#e8f7f0;--blue:#2e6fd8;--blue2:#ebf2ff;--gold:#c89218;--gold2:#fff6d9;
+ --red:#d54c5b;--shadow:0 10px 28px rgba(29,48,71,.10);--radius:16px;
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif}
+button{border:0;border-radius:11px;padding:10px 13px;background:#eaf0f6;color:#243447;font-weight:800;cursor:pointer;transition:.15s}
+button:hover{filter:brightness(.98);transform:translateY(-1px)}button:active{transform:translateY(1px)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+button.primary{background:#263a51;color:#fff}button.green{background:#16865a;color:white}button.gold{background:#d39a22;color:white}button.blue{background:#2e6fd8;color:white}button.red{background:#d54c5b;color:white}
+button.soft{background:white;border:1px solid var(--line)}button.tiny{padding:6px 9px;font-size:12px}
+.topbar{position:sticky;top:0;z-index:20;background:#ffffffee;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbarIn{max-width:1250px;margin:auto;padding:12px 16px;display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:10px;align-items:center}
+.brand{font-weight:950;font-size:20px;letter-spacing:.02em}.brand span{color:var(--green)}
+.statBox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px;box-shadow:0 3px 10px rgba(0,0,0,.03)}
+.statBox small{display:block;color:var(--muted);font-size:10px}.statBox b{font-size:15px}
+.online{display:flex;align-items:center;gap:8px}.dot{width:9px;height:9px;border-radius:50%;background:#d54c5b}.dot.on{background:#16865a;box-shadow:0 0 0 4px #16865a18}
+main{max-width:1250px;margin:18px auto;padding:0 16px 40px}
+.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,.8fr);gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.left{padding:14px}.right{padding:14px}
+.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:9px;margin-bottom:9px}
+.tab{white-space:nowrap;background:var(--surface2);border:1px solid var(--line)}.tab.active{background:#263a51;color:white;border-color:#263a51}
+.sectionHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:4px 0 13px}.sectionHead h2{margin:0;font-size:19px}.muted{color:var(--muted)}
+.hero{display:grid;grid-template-columns:170px 1fr;gap:16px;align-items:stretch}
+.horseFace{border-radius:18px;background:linear-gradient(145deg,#e6edf5,#d7e0ea);display:grid;place-items:center;font-size:95px;min-height:170px;border:1px solid var(--line)}
+.horseTitle{display:flex;align-items:center;justify-content:space-between;gap:10px}.horseName{font-size:28px;font-weight:950}.sexBadge,.rarity{font-size:11px;border-radius:999px;padding:5px 8px;background:var(--blue2);color:var(--blue);white-space:nowrap}
+.meta{margin-top:6px;font-size:13px}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.chip{font-size:11px;background:#f0f3f7;border:1px solid var(--line);padding:5px 8px;border-radius:999px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px}.meter{background:var(--surface2);border:1px solid var(--line);border-radius:11px;padding:8px}.meterTop{display:flex;justify-content:space-between;font-size:11px}.meterTrack{height:8px;background:#e5ebf1;border-radius:999px;overflow:hidden;margin-top:5px}.meterFill{height:100%;background:linear-gradient(90deg,#5c9bf2,#5cb98a)}
+.tapArea{margin-top:14px;background:linear-gradient(135deg,#fff6d9,#fffdf7);border:1px solid #ead6a2;border-radius:15px;padding:12px}.tapBtn{width:100%;font-size:22px;min-height:72px;background:linear-gradient(135deg,#f1bf45,#da951b);color:white;box-shadow:0 5px 0 #a66d13}.comboLine{display:flex;align-items:center;justify-content:space-between;margin-top:9px;font-size:12px}.comboNum{font-size:22px;font-weight:950;color:var(--gold)}.comboBar{height:7px;background:#efeadc;border-radius:999px;overflow:hidden;margin-top:5px}.comboFill{height:100%;width:0;background:linear-gradient(90deg,#ffce4e,#ef8f2f);transition:width .12s}
+.actionRow{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.card{background:var(--surface2);border:1px solid var(--line);border-radius:13px;padding:11px}.card h3{margin:0 0 4px;font-size:14px}.bigNum{font-size:20px;font-weight:950}
+.raceList{display:grid;gap:10px}.raceCard{padding:12px;border:1px solid var(--line);border-radius:13px;background:var(--surface2)}.raceTop{display:flex;justify-content:space-between;gap:8px}.raceTitle{font-weight:900}.raceMeta{font-size:11px;color:var(--muted);margin-top:3px}.raceBottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}.courseTag{font-size:11px;border-radius:999px;padding:4px 7px;background:#fff;border:1px solid var(--line)}
+.table{width:100%;border-collapse:collapse;font-size:12px}.table th,.table td{padding:8px 7px;border-bottom:1px solid #edf0f4;text-align:left}.table th{color:var(--muted);font-weight:800}
+.notice{padding:10px 11px;border-radius:12px;background:var(--green2);border:1px solid #bfe6d4;color:#175b43;font-size:12px}.notice.blue{background:var(--blue2);border-color:#cbdcff;color:#234e9e}.notice.gold{background:var(--gold2);border-color:#f0d58d;color:#7b5a10}.notice.red{background:#fff0f2;border-color:#f3c6cd;color:#8c2c38}
+.list{display:grid;gap:9px}.itemRow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface2)}
+.small{font-size:11px}.titleSm{font-weight:900}.price{color:#9a7013;font-weight:900}
+.sideBlock{margin-bottom:15px}.sideBlock h3{font-size:14px;margin:0 0 8px}.log{max-height:165px;overflow:auto;background:#f5f7fa;border:1px solid var(--line);border-radius:12px;padding:9px;font-size:11px;line-height:1.7}
+.badge{display:inline-block;font-size:10px;border-radius:999px;padding:4px 7px;background:#263a51;color:#fff}.badge.green{background:#16865a}.badge.gold{background:#c89218}.badge.blue{background:#2e6fd8}
+.empty{padding:28px 10px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+footer{text-align:center;color:#8a99a8;font-size:10px;padding:15px}
+.toast{position:fixed;left:50%;bottom:18px;z-index:50;transform:translate(-50%,20px);opacity:0;padding:10px 17px;border-radius:999px;background:#172535;color:white;box-shadow:var(--shadow);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+.modalBack{display:none;position:fixed;inset:0;background:#07111dcc;z-index:40;align-items:center;justify-content:center;padding:12px}.modalBack.show{display:flex}
+.modal{width:min(1050px,100%);max-height:94vh;overflow:auto;background:white;border-radius:18px;border:1px solid #d6dee8;box-shadow:0 25px 70px rgba(0,0,0,.3);padding:16px}.modalHead{display:flex;justify-content:space-between;align-items:center}.modalHead h2{margin:0}
+.raceScene{margin-top:10px;background:linear-gradient(#93c8f0 0 40%,#9bd27d 40% 100%);border-radius:16px;padding:13px;border:1px solid #a9c2d7;position:relative;overflow:hidden}
+.raceCourse{height:345px;background:repeating-linear-gradient(0deg,#3c8a4d 0 37px,#438f51 37px 74px);border:5px solid #f2f4f7;border-radius:13px;box-shadow:inset 0 0 0 4px #2c6c3b;position:relative}
+.trackLane2{height:38px;border-bottom:1px dashed #d5f2d9;position:relative}.trackLabel{position:absolute;left:7px;top:8px;color:#e8fff0;font-size:11px;opacity:.85}
+.finishLine{position:absolute;right:58px;top:0;bottom:0;width:10px;background:repeating-linear-gradient(0deg,#fff 0 8px,#111 8px 16px);opacity:.8}.startLine{position:absolute;left:28px;top:0;bottom:0;border-left:4px solid #fff9}
+.racer{position:absolute;left:32px;top:3px;font-size:29px;will-change:transform}.racerLabel{position:absolute;left:64px;top:11px;background:#172535cc;color:#fff;border-radius:5px;padding:2px 4px;font-size:9px;white-space:nowrap}
+.commentary{margin-top:10px;background:#101b29;color:white;border-radius:12px;padding:9px 12px;font-size:13px;min-height:38px}
+.positions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.posCard{background:#f5f7fa;border:1px solid var(--line);padding:8px;border-radius:10px;font-size:11px}.posCard b{display:block;font-size:12px}
+.resultBanner{margin-top:11px;border-radius:12px;padding:12px;text-align:center;background:#fff6d9;border:1px solid #e9d091;font-weight:950}
+.staffGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.staff{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--surface2)}
+@media(max-width:980px){.topbarIn{grid-template-columns:1fr 1fr}.brand{grid-column:1/-1}.layout{grid-template-columns:1fr}.right{order:2}}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.horseFace{min-height:130px}.grid3{grid-template-columns:1fr}.staffGrid{grid-template-columns:1fr}.positions{grid-template-columns:1fr 1fr}.topbarIn{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header><div class="top">
-<div class="title">🐎 タップ！<span>競走馬オーナーズ</span></div>
-<div class="stat">所持金<b id="money">¥50,000</b></div>
-<div class="stat">馬主ランク<b id="rank">新人</b></div>
-<div class="stat">通算勝利<b id="wins">0勝</b></div>
-<div class="stat online"><i class="dot" id="dot"></i><span id="onlineText">Web接続確認中…</span></div>
+<header class="topbar"><div class="topbarIn">
+  <div class="brand">🐎 タップ！<span>競走馬オーナーズ NEXT</span></div>
+  <div class="statBox"><small>所持金</small><b id="money">¥50,000</b></div>
+  <div class="statBox"><small>馬主ランク</small><b id="rank">新人</b></div>
+  <div class="statBox"><small>通算勝利</small><b id="wins">0勝</b></div>
+  <div class="statBox online"><i id="dot" class="dot"></i><div><small>Web接続</small><b id="onlineText">確認中</b></div></div>
 </div></header>
 
-<main>
-<div class="grid">
-<section class="panel">
-<div class="tabs">
-<button class="tab active" data-tab="train">育成</button>
-<button class="tab" data-tab="raceTab">レース</button>
-<button class="tab" data-tab="stable">厩舎</button>
-<button class="tab" data-tab="shop">ショップ</button>
-<button class="tab" data-tab="record">記録</button>
-</div>
-<div id="tab-train" class="tabPane">
-<div class="horseHero">
-<div class="horseAvatar" id="avatar">🐎</div>
-<div>
-<div class="horseName" id="horseName">スターライト</div>
-<div class="muted">年齢 <b id="age">2</b>歳　/　成長期 <span id="growth">絶好調</span></div>
-<div><span class="tag" id="surface">芝適性 A</span><span class="tag" id="distance">マイル適性 A</span><span class="tag" id="temper">気性 B</span></div>
-<div class="bars" id="statBars"></div>
-</div>
-</div>
-<button class="bigTap" id="tapBtn">👆 連打で調教する！</button>
-<div class="tapHint">連打すると育成経験値がたまり、一定回数ごとに能力が伸びます。疲労にも注意！</div>
-<div class="cardGrid" style="margin-top:12px">
-<div class="miniCard">❤️ 体力 <b id="stamina">100</b><small>0になると調教効率低下</small></div>
-<div class="miniCard">✨ 調子 <b id="condition">78</b><small>レース能力に影響</small></div>
-<div class="miniCard">🔥 連打コンボ <b id="combo">0</b><small>高コンボで成長ボーナス</small></div>
-<div class="miniCard">📅 日数 <b id="day">1日目</b><small>休養で翌日へ</small></div>
-</div>
-<div class="row" style="margin-top:12px">
-<button class="good" id="restBtn">🛌 休養して翌日へ</button>
-<button id="feedBtn">🥕 好物をあげる ¥1,000</button>
-<button id="saveBtn">💾 セーブ</button>
-<button id="resetBtn" class="small warn">初期化</button>
-</div>
-<div class="notice" style="margin-top:12px">💡 <b>育成のコツ：</b>短時間に連打するとコンボが伸びます。ただし疲労がたまるので、レース前は休養と食事で調子を整えましょう。</div>
-</div>
+<main><div class="layout">
+<section class="panel left">
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="home">ホーム</button>
+    <button class="tab" data-tab="race">レース</button>
+    <button class="tab" data-tab="breed">血統・繁殖</button>
+    <button class="tab" data-tab="stable">厩舎</button>
+    <button class="tab" data-tab="staff">騎手・調教師</button>
+    <button class="tab" data-tab="shop">施設・ショップ</button>
+    <button class="tab" data-tab="record">記録</button>
+    <button class="tab" data-tab="tournament">オンライン大会</button>
+  </div>
 
-<div id="tab-raceTab" class="tabPane" style="display:none"><h2>🏁 出走できるレース</h2><div id="raceList" class="races"></div></div>
-<div id="tab-stable" class="tabPane" style="display:none"><h2>🏠 マイ厩舎</h2><div id="stableList"></div><div class="row" style="margin-top:12px"><button class="primary" id="buyHorseBtn">🐴 新しい馬を購入 ¥30,000</button></div></div>
-<div id="tab-shop" class="tabPane" style="display:none"><h2>🛒 ショップ</h2><div class="shop" id="shopList"></div></div>
-<div id="tab-record" class="tabPane" style="display:none"><h2>🏆 馬主記録</h2><div id="recordView"></div></div>
+  <div id="tab-home" class="tabPane">
+    <div class="sectionHead"><h2>現在の主役</h2><span class="badge green" id="eventBadge">通常開催</span></div>
+    <div class="hero">
+      <div class="horseFace" id="face">🐎</div>
+      <div>
+        <div class="horseTitle"><div class="horseName" id="horseName">スターライト</div><span class="sexBadge" id="sex"></span></div>
+        <div class="meta muted">年齢 <b id="age">2</b>歳　/　Lv.<b id="level">1</b>　/　体調 <b id="condition">78</b></div>
+        <div class="chips" id="chips"></div>
+        <div class="stats" id="stats"></div>
+      </div>
+    </div>
+    <div class="tapArea">
+      <button class="tapBtn" id="tapBtn">👆 連打で調教する！</button>
+      <div class="comboLine"><span>連打コンボ（1.4秒以内に次のタップで継続）</span><span class="comboNum" id="comboNum">0</span></div>
+      <div class="comboBar"><div class="comboFill" id="comboFill"></div></div>
+    </div>
+    <div class="grid3" style="margin-top:10px">
+      <div class="card"><small class="muted">❤️ 体力</small><div class="bigNum" id="stamina">100</div></div>
+      <div class="card"><small class="muted">😵 疲労</small><div class="bigNum" id="fatigue">8</div></div>
+      <div class="card"><small class="muted">📅 日数</small><div class="bigNum" id="day">1日目</div></div>
+    </div>
+    <div class="actionRow">
+      <button class="green" id="restBtn">🛌 休養</button>
+      <button id="feedBtn">🥕 特製にんじん ¥1,000</button>
+      <button class="blue" id="saveBtn">💾 セーブ</button>
+      <button class="tiny soft" id="resetBtn">初期化</button>
+    </div>
+  </div>
+
+  <div id="tab-race" class="tabPane" style="display:none">
+    <div class="sectionHead"><h2>🏁 レースカレンダー</h2><span class="muted small">出走するとリアルタイム観戦</span></div>
+    <div class="raceList" id="raceList"></div>
+  </div>
+
+  <div id="tab-breed" class="tabPane" style="display:none">
+    <div class="sectionHead"><h2>🧬 血統・種付け</h2><span class="badge gold">繁殖システム</span></div>
+    <div class="notice gold">繁殖牝馬を選び、種牡馬を決めると子馬が誕生します。両親の能力・適性・血統を一部引き継ぎます。</div>
+    <div class="grid2" style="margin-top:10px">
+      <div class="card"><h3>繁殖牝馬</h3><div id="mareList"></div></div>
+      <div class="card"><h3>種牡馬</h3><div id="sireList"></div></div>
+    </div>
+    <div style="margin-top:10px" class="card">
+      <h3>選択中の配合</h3><div id="matingPreview"></div>
+      <div class="actionRow"><button class="gold" id="breedBtn">🧬 種付けする ¥10,000</button></div>
+    </div>
+    <div style="margin-top:10px"><h3>血統表</h3><div id="pedigree"></div></div>
+  </div>
+
+  <div id="tab-stable" class="tabPane" style="display:none">
+    <div class="sectionHead"><h2>🏠 マイ厩舎</h2><button class="gold" id="buyHorseBtn">🐴 新しい馬 ¥30,000</button></div>
+    <div class="list" id="stableList"></div>
+  </div>
+
+  <div id="tab-staff" class="tabPane" style="display:none">
+    <div class="sectionHead"><h2>👤 騎手・調教師</h2><span class="muted small">任せる相手でレース性能が変化</span></div>
+    <div class="staffGrid"><div><h3>騎手</h3><div id="jockeyList" class="list"></div></div><div><h3>調教師</h3><div id="trainerList" class="list"></div></div></div>
+  </div>
+
+  <div id="tab-shop" class="tabPane" style="display:none">
+    <div class="sectionHead"><h2>🏟️ 施設・ショップ</h2></div>
+    <div class="grid2" id="shopGrid"></div>
+  </div>
+
+  <div id="tab-record" class="tabPane" style="display:none">
+    <div class="sectionHead"><h2>📚 記録・予想チャレンジ</h2><span class="muted small">無料で遊べるレース予想</span></div>
+    <div class="notice blue">「馬券」の代わりに、賞金を賭けない無料の予想チャレンジを搭載しています。的中すると称号ポイントだけ獲得できます。</div>
+    <div class="grid3" style="margin-top:10px">
+      <div class="card"><small class="muted">🏆 勝利</small><div class="bigNum" id="recWins">0</div></div>
+      <div class="card"><small class="muted">💰 累計賞金</small><div class="bigNum" id="recEarn">¥0</div></div>
+      <div class="card"><small class="muted">⭐ スコア</small><div class="bigNum" id="recScore">0</div></div>
+    </div>
+    <h3 style="margin-top:14px">無料予想チャレンジ</h3><div id="predictionList" class="list"></div>
+    <h3 style="margin-top:14px">プレイ履歴</h3><div class="log" id="history"></div>
+  </div>
+
+  <div id="tab-tournament" class="tabPane" style="display:none">
+    <div class="sectionHead"><h2>🌎 オンライン大会</h2><span class="badge blue" id="tourStatus">開催中</span></div>
+    <div class="notice blue" id="tournamentInfo"></div>
+    <div class="grid2" style="margin-top:10px"><div class="card"><h3>今週の大会</h3><div id="tourCard"></div></div><div class="card"><h3>オンライン順位</h3><div id="leaderboard"></div></div></div>
+  </div>
 </section>
 
-<aside class="panel">
-<h2>🌐 オンライン情報</h2>
-<div class="notice" id="onlineNotice">オンラインデータを取得しています…</div>
-<div style="height:10px"></div>
-<h2>📢 お知らせ</h2>
-<div class="log" id="news"></div>
-<h2 style="margin-top:12px">🌎 オンラインランキング</h2>
-<div id="leaderboard"></div>
-<h2 style="margin-top:12px">📜 最近の履歴</h2>
-<div class="log" id="history"></div>
+<aside class="panel right">
+  <div class="sideBlock"><h3>🌐 オンライン</h3><div class="notice" id="onlineNotice">接続しています…</div></div>
+  <div class="sideBlock"><h3>📣 お知らせ</h3><div class="log" id="news"></div></div>
+  <div class="sideBlock"><h3>🧭 今の目標</h3><div id="goal" class="card"></div></div>
+  <div class="sideBlock"><h3>📜 最新履歴</h3><div class="log" id="sideHistory"></div></div>
 </aside>
-</div>
-<footer>タップ！競走馬オーナーズ / ブラウザ保存対応 / オンライン設定はGitHub上の公開JSONを直接取得</footer>
-</main>
+</div><footer>タップ！競走馬オーナーズ NEXT / ローカルセーブ + GitHub上の公開データをブラウザから直接取得</footer></main>
 
 <div class="toast" id="toast"></div>
 <div class="modalBack" id="modalBack"><div class="modal" id="modal"></div></div>
 
 <script>
-const REMOTE = 'https://raw.githubusercontent.com/1936078-web/-/main/game-config.json';
-const GH_API = 'https://api.github.com/repos/1936078-web/-';
-const KEY = 'tap-horse-owners-v1';
+const REMOTE='https://raw.githubusercontent.com/1936078-web/-/main/game-config.json';
+const GH_API='https://api.github.com/repos/1936078-web/-';
+const KEY='tap-horse-owners-v2';
 
-const races = [
- {id:'dash',name:'スピードチャレンジ',grade:'新馬',distance:1200,type:'短距離',minAge:2,prize:12000,need:25,bg:'🌱'},
- {id:'mile',name:'春風マイルカップ',grade:'G3',distance:1600,type:'マイル',minAge:2,prize:30000,need:45,bg:'🌼'},
- {id:'classic',name:'クラシック杯',grade:'G2',distance:2000,type:'中距離',minAge:3,prize:60000,need:65,bg:'🏆'},
- {id:'stayer',name:'ロングラン王決定戦',grade:'G2',distance:2600,type:'長距離',minAge:3,prize:85000,need:80,bg:'⛰️'},
- {id:'grand',name:'グランドオーナーズ杯',grade:'G1',distance:2400,type:'中距離',minAge:4,prize:150000,need:110,bg:'👑'}
+const races=[
+{id:'local_s',name:'京都スピードチャレンジ',region:'地方交流',country:'日本',grade:'OP',distance:1200,surface:'芝',minAge:2,prize:14000,need:45},
+{id:'g3',name:'春風マイルカップ',region:'中央',country:'日本',grade:'G3',distance:1600,surface:'芝',minAge:2,prize:35000,need:62},
+{id:'g2',name:'クラシック杯',region:'中央',country:'日本',grade:'G2',distance:2000,surface:'芝',minAge:3,prize:70000,need:76},
+{id:'dirt',name:'地方ダート王決定戦',region:'地方',country:'日本',grade:'Jpn2',distance:1800,surface:'ダート',minAge:3,prize:65000,need:73},
+{id:'g1',name:'グランドオーナーズ杯',region:'中央',country:'日本',grade:'G1',distance:2400,surface:'芝',minAge:4,prize:180000,need:105},
+{id:'dubai',name:'ナイト・インターナショナルC',region:'海外',country:'UAE',grade:'INTERNATIONAL',distance:2000,surface:'芝',minAge:4,prize:260000,need:122},
+{id:'france',name:'パリ・ターフクラシック',region:'海外',country:'FRANCE',grade:'INTERNATIONAL',distance:2400,surface:'芝',minAge:4,prize:320000,need:135}
 ];
 
-let base = {money:50000,day:1,wins:0,places:0,score:0,nextId:2,selected:0,
- horses:[newHorse(1,'スターライト','🦄',{speed:52,stamina:47,power:44,guts:41,smart:49},'A','A','B')],
- history:['ゲーム開始。スターライトを預かりました。'], achievements:[], items:{carrot:0,book:0,shoe:0}};
-let s = load() || base;
-let onlineConfig = {event:'通常開催',bonus:1,news:['オンライン情報を取得できませんでした。ローカルモードで続行します。'],leaderboard:[['Riku','1560'],['HorseFan','1420'],['Taka','1280'],['Runner','1120'],['UmaMaster','980']]};
+const jockeys=[
+{id:'j1',name:'佐伯 直人',style:'先行',boost:8,fee:4000},{id:'j2',name:'水城 レン',style:'差し',boost:11,fee:7000},
+{id:'j3',name:'高橋 ミナ',style:'追込',boost:13,fee:9000},{id:'j4',name:'森崎 ユウ',style:'万能',boost:16,fee:13000}
+];
+const trainers=[
+{id:'t1',name:'青木 恒一',special:'成長',boost:7,fee:5000},{id:'t2',name:'黒田 恒一',special:'芝',boost:10,fee:8000},
+{id:'t3',name:'白石 彩',special:'海外',boost:13,fee:12000},{id:'t4',name:'東雲 蓮',special:'万能',boost:16,fee:18000}
+];
+const studs=[
+{id:'s1',name:'ロイヤルハーツ',icon:'🐎',stats:{speed:78,stamina:72,power:70,guts:68,smart:75},surface:'A',distance:'A',temper:'B',line:'ロイヤル系',fee:10000},
+{id:'s2',name:'サンダーキング',icon:'🦄',stats:{speed:88,stamina:62,power:82,guts:74,smart:67},surface:'B',distance:'A',temper:'C',line:'サンダー系',fee:14000},
+{id:'s3',name:'グリーンレジェンド',icon:'🐴',stats:{speed:71,stamina:88,power:74,guts:81,smart:79},surface:'A',distance:'B',temper:'A',line:'グリーン系',fee:17000}
+];
 
-function newHorse(id,name,icon,stats,surface='A',distance='A',temper='B'){return {id,name,icon,age:2,exp:0,level:1,stamina:100,condition:78,fatigue:8,stats,surface,distance,temper,races:0,wins:0,earn:0,skills:[]}}
-function save(){localStorage.setItem(KEY,JSON.stringify(s))}
+let defaultState={
+money:50000,day:1,nextId:2,selected:0,wins:0,places:0,score:0,points:0,selectedMare:null,selectedSire:'s1',
+jockeyId:'j1',trainerId:'t1',predictionDone:{},
+horses:[newHorse(1,'スターライト','🐎','牡',{speed:52,stamina:47,power:44,guts:41,smart:49},'A','A','B',null,null)],
+history:['Day 1：スターライトを預かりました。'],items:{carrot:0,book:0,shoe:0},facilities:{track:0,stable:0},
+};
+
+function newHorse(id,name,icon,sex,stats,surface='A',distance='A',temper='B',sire=null,dam=null){
+ return {id,name,icon,sex,age:2,exp:0,level:1,stamina:100,condition:78,fatigue:8,stats,surface,distance,temper,races:0,wins:0,earn:0,skills:[],sire,dam,rarity:'N',foal:false};
+}
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
-function money(){return '¥'+Math.floor(s.money).toLocaleString()}
-function horse(){return s.horses[s.selected]||s.horses[0]}
-function totalPower(h=horse()){return h.stats.speed*.33+h.stats.stamina*.2+h.stats.power*.17+h.stats.guts*.12+h.stats.smart*.18}
-function rank(){const w=s.wins, m=s.money; if(w>=12&&m>=500000)return'伝説';if(w>=7&&m>=250000)return'名馬主';if(w>=3&&m>=100000)return'ベテラン';return'新人'}
-function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>e.classList.remove('show'),1800)}
-function log(t){s.history.unshift('Day '+s.day+'：'+t);s.history=s.history.slice(0,40)}
-function fmtBar(label,v){return '<div class="bar"><span>'+label+'</span><div class="track"><div class="fill" style="width:'+Math.min(100,v)+'%"></div></div><b>'+Math.round(v)+'</b></div>'}
+let s=load()||defaultState;
+function normalize(){
+ s.horses=s.horses||[]; if(!s.horses.length)s.horses=[defaultState.horses[0]];
+ s.selected=Math.min(s.selected||0,s.horses.length-1);s.money=s.money??50000;s.day=s.day||1;s.wins=s.wins||0;s.places=s.places||0;s.score=s.score||0;s.points=s.points||0;
+ s.items=s.items||{carrot:0,book:0,shoe:0};s.predictionDone=s.predictionDone||{};s.history=s.history||[];
+ s.jockeyId=s.jockeyId||'j1';s.trainerId=s.trainerId||'t1';s.selectedSire=s.selectedSire||'s1';s.facilities=s.facilities||{track:0,stable:0};
+ s.horses.forEach(h=>{h.stats=h.stats||{speed:45,stamina:45,power:45,guts:45,smart:45};h.exp=h.exp||0;h.level=h.level||1;h.stamina=h.stamina??100;h.condition=h.condition??78;h.fatigue=h.fatigue??8;h.races=h.races||0;h.wins=h.wins||0;h.earn=h.earn||0;h.sex=h.sex||'牡';h.foal=!!h.foal});
+}
+normalize();
+const online={event:'秋のスピード育成キャンペーン',bonus:1.15,news:['オンライン情報を読み込めませんでした。ローカルでも全機能をプレイできます。'],leaderboard:[['Riku','1560'],['HorseFan','1420'],['Taka','1280'],['Runner','1120'],['UmaMaster','980']],tournament:{name:'NEXTワールドカップ',goal:'今週の通算賞金と大会スコアで競争',bonus:1.2}};
+let combo=0,comboTimer=null,lastTap=0;
 
+function save(){localStorage.setItem(KEY,JSON.stringify(s))}
+function money(n=s.money){return '¥'+Math.floor(n).toLocaleString()}
+function horse(){return s.horses[s.selected]}
+function totalPower(h=horse()){return h.stats.speed*.32+h.stats.stamina*.2+h.stats.power*.17+h.stats.guts*.13+h.stats.smart*.18}
+function rank(){if(s.wins>=12&&s.money>=500000)return'伝説';if(s.wins>=7&&s.money>=250000)return'名馬主';if(s.wins>=3&&s.money>=100000)return'ベテラン';return'新人'}
+function toast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(window.toastT);window.toastT=setTimeout(()=>e.classList.remove('show'),1700)}
+function log(msg){s.history.unshift('Day '+s.day+'：'+msg);s.history=s.history.slice(0,60)}
+function statBar(label,v){return '<div class="meter"><div class="meterTop"><span>'+label+'</span><b>'+Math.round(v)+'</b></div><div class="meterTrack"><div class="meterFill" style="width:'+Math.min(100,v)+'%"></div></div></div>'}
+function showTab(name){
+ document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+ document.querySelectorAll('.tabPane').forEach(p=>p.style.display=p.id==='tab-'+name?'block':'none');
+}
+document.getElementById('tabs').addEventListener('click',e=>{if(e.target.matches('.tab'))showTab(e.target.dataset.tab)});
+
+function render(){
+ const h=horse(), j=jockeys.find(x=>x.id===s.jockeyId), t=trainers.find(x=>x.id===s.trainerId);
+ document.getElementById('money').textContent=money();document.getElementById('rank').textContent=rank();document.getElementById('wins').textContent=s.wins+'勝';
+ document.getElementById('face').textContent=h.icon;document.getElementById('horseName').textContent=h.name;document.getElementById('sex').textContent=h.sex+' / '+(h.rarity||'N');
+ document.getElementById('age').textContent=h.age;document.getElementById('level').textContent=h.level;document.getElementById('condition').textContent=Math.round(h.condition);
+ document.getElementById('stamina').textContent=Math.round(h.stamina);document.getElementById('fatigue').textContent=Math.round(h.fatigue);document.getElementById('day').textContent=s.day+'日目';
+ document.getElementById('chips').innerHTML=['芝適性 '+h.surface,'距離適性 '+h.distance,'気性 '+h.temper,'騎手 '+j.name,'調教師 '+t.name].map(x=>'<span class="chip">'+x+'</span>').join('');
+ document.getElementById('stats').innerHTML=statBar('スピード',h.stats.speed)+statBar('スタミナ',h.stats.stamina)+statBar('パワー',h.stats.power)+statBar('根性',h.stats.guts)+statBar('賢さ',h.stats.smart);
+ document.getElementById('comboNum').textContent=combo;document.getElementById('comboFill').style.width=Math.min(100,combo*4)+'%';
+ document.getElementById('eventBadge').textContent=online.event||'通常開催';
+ renderRaces();renderBreeding();renderStable();renderStaff();renderShop();renderRecord();renderTournament();
+ document.getElementById('goal').innerHTML='<b>次の目標</b><div class="small muted" style="margin-top:5px">'+goalText(h)+'</div>';
+ document.getElementById('sideHistory').innerHTML=s.history.slice(0,10).map(x=>'• '+x).join('<br>');
+}
+function goalText(h){if(h.age<3)return'Lv.'+(h.level+1)+'を目指して育成。3歳になればG2クラシック杯へ挑戦できます。';if(s.wins<3)return'まずは3勝して「ベテラン馬主」を目指そう。';if(!h.foal && !s.horses.some(x=>x.sex==='牝'&&x.age>=3))return'繁殖牝馬を迎えて血統づくりを始めよう。';return'G1・海外レースで通算賞金を伸ばそう。'}
+
+function tapTrain(){
+ const h=horse(),now=performance.now();
+ if(h.stamina<2){toast('❤️ 体力不足。休養しよう');return}
+ if(lastTap && now-lastTap>1400)combo=0;
+ lastTap=now;combo++;clearTimeout(comboTimer);comboTimer=setTimeout(()=>{combo=0;render()},1400);
+ const type=['speed','stamina','power','guts','smart'][Math.floor(Math.random()*5)];
+ const streak=Math.min(2.8,1+combo*.035),conditionBonus=h.condition>=60?1:.72;
+ const eventBonus=online.bonus||1;
+ h.stats[type]+=0.42*streak*conditionBonus*eventBonus;
+ h.exp+=(1+Math.floor(streak));
+ h.stamina-=.7;h.fatigue=Math.min(100,h.fatigue+.45);h.condition=Math.max(1,h.condition-.1);
+ if(combo%10===0){h.stats[type]+=1.5;toast('🔥 '+combo+'コンボ！ '+type+'が大きく成長！')}
+ if(h.exp>=18+h.level*7){h.exp=0;h.level++;if(h.level%7===0&&h.age<6)h.age++;toast('🎉 Lv.'+h.level+'に成長！')}
+ s.score=Math.max(s.score,Math.floor(totalPower(h)*10+h.level*50+s.wins*200));
+ save();render();
+}
+function rest(){const h=horse();h.stamina=Math.min(100,h.stamina+35);h.fatigue=Math.max(0,h.fatigue-34);h.condition=Math.min(100,h.condition+13);s.day++;combo=0;lastTap=0;log('休養。疲労が抜けた。');randomEvent();save();render();toast('🛌 休養してDay '+s.day+'へ')}
+function feed(){if(s.money<1000){toast('お金が足りません');return}const h=horse();s.money-=1000;h.condition=Math.min(100,h.condition+18);h.stamina=Math.min(100,h.stamina+11);log('特製にんじんでコンディション回復。');save();render();toast('🥕 好調アップ！')}
+function randomEvent(){if(Math.random()>.28)return;const ev=[['晴天トレーニングDAY','今日の育成効率が上昇！'],['蹄のケア','疲労が少し減った。'],['ファンレター','称号ポイントを獲得！'],['臨時CMオファー','賞金相当のボーナスを獲得！']][Math.floor(Math.random()*4)];if(ev[0].includes('育成'))horse().condition=Math.min(100,horse().condition+8);if(ev[0].includes('疲労'))horse().fatigue=Math.max(0,horse().fatigue-10);if(ev[0].includes('ポイント'))s.points+=30;if(ev[0].includes('CM'))s.money+=5000;log('🎲 ランダムイベント「'+ev[0]+'」：'+ev[1])}
+
+function renderRaces(){
+ const h=horse();
+ document.getElementById('raceList').innerHTML=races.map(r=>{
+  const ok=h.age>=r.minAge;
+  const overseas=r.region==='海外';
+  return '<div class="raceCard"><div class="raceTop"><div><div class="raceTitle">🏁 '+r.name+'</div><div class="raceMeta">'+r.country+' / '+r.region+' / '+r.grade+' / '+r.distance+'m '+r.surface+'</div></div><span class="badge '+(overseas?'blue':'')+'">'+(ok?'出走可能':r.minAge+'歳から')+'</span></div><div class="raceBottom"><div><span class="courseTag">目安指数 '+r.need+'</span> <span class="price">優勝賞金 '+money(r.prize)+'</span></div><button class="primary tiny" '+(ok?'':'disabled')+' data-race="'+r.id+'">ライブ観戦</button></div></div>'
+ }).join('');
+}
+document.getElementById('raceList').addEventListener('click',e=>{const id=e.target.dataset.race;if(!id)return;const r=races.find(x=>x.id===id);startRace(r)});
+
+function renderStable(){
+ document.getElementById('stableList').innerHTML=s.horses.map((h,i)=>'<div class="itemRow" style="border-color:'+(i===s.selected?'#d4ad45':'var(--line)')+'"><div style="display:flex;gap:10px;align-items:center"><div style="font-size:35px">'+h.icon+'</div><div><div class="titleSm">'+h.name+' <span class="small muted">'+h.sex+'</span></div><div class="small muted">'+h.age+'歳 / Lv.'+h.level+' / '+h.wins+'勝 / 賞金 '+money(h.earn)+'</div><div class="small muted">'+(h.sire||'父未登録')+' × '+(h.dam||'母未登録')+'</div></div></div><button class="tiny '+(i===s.selected?'green':'soft')+'" onclick="selectHorse('+i+')">'+(i===s.selected?'選択中':'選ぶ')+'</button></div>').join('');
+}
+function selectHorse(i){s.selected=i;save();render();toast(s.horses[i].name+'を選択')}
+
+function renderBreeding(){
+ const mares=s.horses.filter(h=>h.sex==='牝'&&h.age>=3);
+ document.getElementById('mareList').innerHTML=mares.length?mares.map(m=>'<div class="itemRow" style="margin-bottom:7px"><div><b>'+m.name+'</b><div class="small muted">Lv.'+m.level+' / '+m.age+'歳</div></div><button class="tiny '+(s.selectedMare===m.id?'green':'soft')+'" onclick="setMare('+m.id+')">'+(s.selectedMare===m.id?'選択中':'選ぶ')+'</button></div>').join(''):'<div class="empty">繁殖牝馬がいません。厩舎で牝馬を購入してください。</div>';
+ document.getElementById('sireList').innerHTML=studs.map(st=>'<div class="itemRow" style="margin-bottom:7px"><div><b>'+st.icon+' '+st.name+'</b><div class="small muted">'+st.line+' / 芝'+st.surface+' / 料金 '+money(st.fee)+'</div></div><button class="tiny '+(s.selectedSire===st.id?'blue':'soft')+'" onclick="setSire(\''+st.id+'\')">'+(s.selectedSire===st.id?'選択中':'選ぶ')+'</button></div>').join('');
+ const mare=mares.find(x=>x.id===s.selectedMare),sire=studs.find(x=>x.id===s.selectedSire);
+ document.getElementById('matingPreview').innerHTML=mare&&sire?'<div class="small"><b>'+mare.name+'</b> × <b>'+sire.name+'</b> → 子馬の能力を合成</div>':'<div class="small muted">繁殖牝馬と種牡馬を選択してください。</div>';
+ document.getElementById('pedigree').innerHTML=mare?pedigreeHtml(mare):'<div class="empty">繁殖牝馬を選ぶと血統表が表示されます。</div>';
+}
+function setMare(id){s.selectedMare=id;save();render()}
+function setSire(id){s.selectedSire=id;save();render()}
+function pedigreeHtml(h){return '<div class="card"><div class="small muted">4代表示</div><table class="table"><tr><th>父</th><td>'+(h.sire||'—')+'</td><th>母</th><td>'+(h.dam||'—')+'</td></tr><tr><th>父父</th><td>レジェンド系</td><th>母父</th><td>ナイト系</td></tr><tr><th>父母</th><td>ブルー系</td><th>母母</th><td>グリーン系</td></tr></table></div>'}
+
+document.getElementById('breedBtn').addEventListener('click',()=>{
+ const mare=s.horses.find(x=>x.id===s.selectedMare),stud=studs.find(x=>x.id===s.selectedSire);
+ if(!mare||mare.sex!=='牝'||mare.age<3){toast('3歳以上の繁殖牝馬を選んでください');return}
+ if(s.money<stud.fee){toast('種付け資金が足りません');return}
+ s.money-=stud.fee;
+ const childStats={};Object.keys(stud.stats).forEach(k=>childStats[k]=Math.max(35,Math.round((stud.stats[k]+mare.stats[k])/2+(Math.random()*10-5))));
+ const names=['ブレイブアロー','ルミナスベル','スタークレスト','ミッドナイト','グロリアス'];
+ const name=names[Math.floor(Math.random()*names.length)]+' '+(s.nextId);
+ const child=newHorse(s.nextId++,name,Math.random()>.5?'🐎':'🦄',Math.random()>.5?'牡':'牝',childStats,Math.random()>.75?'A':mare.surface,Math.random()>.55?'A':mare.distance,Math.random()>.6?'A':'B',stud.name,mare.name);
+ child.age=0;child.foal=true;child.rarity=Math.random()>.82?'R':'N';child.condition=90;child.stamina=100;child.level=1;
+ s.horses.push(child);s.selected=s.horses.length-1;s.day+=30;log('🧬 '+mare.name+'に'+stud.name+'を種付け。子馬 '+child.name+' が誕生！');save();render();toast('🍼 新しい子馬が誕生！ '+child.name);
+ showTab('stable');
+});
+
+document.getElementById('buyHorseBtn').addEventListener('click',()=>{
+ if(s.money<30000){toast('お金が足りません');return}
+ const female=Math.random()>.45, pool=female?[['ブルームレディ','🐴'],['ミスティリリー','🦄'],['サクラノアール','🐎']][Math.floor(Math.random()*3)]:[['ブルーロード','🐴'],['ゴールドウィング','🐎'],['ナイトベル','🦄']][Math.floor(Math.random()*3)];
+ const h=newHorse(s.nextId++,pool[0],pool[1],female?'牝':'牡',{speed:45+Math.random()*18,stamina:43+Math.random()*18,power:42+Math.random()*18,guts:40+Math.random()*17,smart:42+Math.random()*18},Math.random()>.5?'A':'B',Math.random()>.45?'A':'B',Math.random()>.5?'A':'B');
+ s.money-=30000;s.horses.push(h);s.selected=s.horses.length-1;log('新馬 '+h.name+'（'+h.sex+'）を購入。');save();render();toast('🐴 '+h.name+' を迎えた！');showTab('stable');
+});
+
+function renderStaff(){
+ const h=horse();
+ document.getElementById('jockeyList').innerHTML=jockeys.map(j=>'<div class="staff"><b>'+j.name+'</b><div class="small muted">'+j.style+' / レース補正 +'+j.boost+' / 騎乗料 '+money(j.fee)+'</div><div style="margin-top:7px"><button class="tiny '+(s.jockeyId===j.id?'green':'soft')+'" onclick="hireJockey(\''+j.id+'\')">'+(s.jockeyId===j.id?'契約中':'契約する')+'</button></div></div>').join('');
+ document.getElementById('trainerList').innerHTML=trainers.map(t=>'<div class="staff"><b>'+t.name+'</b><div class="small muted">'+t.special+' / 補正 +'+t.boost+' / 契約料 '+money(t.fee)+'</div><div style="margin-top:7px"><button class="tiny '+(s.trainerId===t.id?'blue':'soft')+'" onclick="hireTrainer(\''+t.id+'\')">'+(s.trainerId===t.id?'契約中':'契約する')+'</button></div></div>').join('');
+}
+function hireJockey(id){const j=jockeys.find(x=>x.id===id);if(s.money<j.fee){toast('資金不足');return}s.money-=j.fee;s.jockeyId=id;log('騎手 '+j.name+' と契約。');save();render();toast('🏇 '+j.name+' を起用')}
+function hireTrainer(id){const t=trainers.find(x=>x.id===id);if(s.money<t.fee){toast('資金不足');return}s.money-=t.fee;s.trainerId=id;log('調教師 '+t.name+' と契約。');save();render();toast('🧑‍🏫 '+t.name+' と契約')}
+
+function renderShop(){
+ const data=[
+  ['🏟️ 屋内調教コース','調教時の体力消費 -10%',40000,'track'],
+  ['🏠 厩舎増設','所有できる馬の枠 +2',50000,'stable'],
+  ['📖 成長の指南書','調教経験値アップ（10回分）',6000,'book'],
+  ['🥕 特上にんじん×3','体力と調子を回復',2500,'carrot'],
+  ['👟 軽量蹄鉄','次のレースで能力補正',4500,'shoe']
+ ];
+ document.getElementById('shopGrid').innerHTML=data.map(x=>'<div class="card"><h3>'+x[0]+'</h3><div class="small muted">'+x[1]+'</div><div class="actionRow"><span class="price">'+money(x[2])+'</span><button class="tiny gold" onclick="buyThing(\''+x[3]+'\','+x[2]+')">購入</button></div></div>').join('');
+}
+function buyThing(id,cost){if(s.money<cost){toast('お金が足りません');return}s.money-=cost;if(id==='track'||id==='stable')s.facilities[id]++;else s.items[id]=(s.items[id]||0)+(id==='carrot'?3:1);log('施設・アイテム「'+id+'」を購入。');save();render();toast('✅ 購入しました')}
+
+function renderRecord(){
+ const earn=s.horses.reduce((a,h)=>a+(h.earn||0),0);
+ document.getElementById('recWins').textContent=s.wins;document.getElementById('recEarn').textContent=money(earn);document.getElementById('recScore').textContent=s.score;
+ const list=races.slice(0,5).map(r=>'<div class="itemRow"><div><b>'+r.name+'</b><div class="small muted">無料予想 / 正解すると +20ポイント</div></div><button class="tiny blue" onclick="freePredict(\''+r.id+'\')">予想する</button></div>').join('');
+ document.getElementById('predictionList').innerHTML=list;
+ document.getElementById('history').innerHTML=s.history.map(x=>'• '+x).join('<br>');
+}
+function freePredict(id){if(s.predictionDone[id]){toast('このレースは予想済み');return}const r=races.find(x=>x.id===id);const pick=['自分の馬','ブルーコメット','ミラクル','サンダー'][Math.floor(Math.random()*4)];const correct=Math.random()<.55;s.predictionDone[id]=1;if(correct){s.points+=20;log('🎯 '+r.name+'の無料予想チャレンジ成功！ +20pt');toast('🎯 的中！ +20pt')}else{log('🔎 '+r.name+'の無料予想に挑戦。残念！');toast('惜しい！ 次の予想へ')}save();render()}
+
+function renderTournament(){
+ document.getElementById('tournamentInfo').textContent=(online.tournament?.name||'オンライン大会')+'：'+(online.tournament?.goal||'期間中のスコアを競争')+'。';
+ document.getElementById('tourCard').innerHTML='<b>'+ (online.tournament?.name||'NEXTワールドカップ') +'</b><div class="small muted" style="margin-top:6px">あなたの大会スコア：'+s.score+'</div><div class="small muted">称号ポイント：'+s.points+'</div>';
+ document.getElementById('leaderboard').innerHTML='<table class="table"><tr><th>#</th><th>馬主</th><th>スコア</th></tr>'+online.leaderboard.map((x,i)=>'<tr><td>'+(i+1)+'</td><td>'+x[0]+'</td><td>'+x[1]+'</td></tr>').join('')+'</table>';
+}
 async function connect(){
  try{
-  const [a,b]=await Promise.all([fetch(GH_API,{cache:'no-store'}),fetch(REMOTE,{cache:'no-store'})]);
-  if(!a.ok||!b.ok) throw new Error();
-  const repo=await a.json(); onlineConfig=await b.json();
-  document.getElementById('dot').classList.add('on');
-  document.getElementById('onlineText').textContent='ONLINE';
-  document.getElementById('onlineNotice').textContent='🟢 Web接続成功 / '+repo.full_name+' / '+(onlineConfig.event||'通常開催');
- }catch(e){
-  document.getElementById('onlineNotice').textContent='🟡 オフライン動作中（育成とレースはそのままプレイ可能）';
- }
- document.getElementById('news').innerHTML=(onlineConfig.news||[]).map(x=>'• '+x).join('<br>');
- document.getElementById('leaderboard').innerHTML='<table><tr><th>#</th><th>馬主</th><th>スコア</th></tr>'+onlineConfig.leaderboard.map((x,i)=>'<tr><td>'+(i+1)+'</td><td>'+x[0]+'</td><td>'+x[1]+'</td></tr>').join('')+'</table>';
+  const [a,b]=await Promise.all([fetch(GH_API,{cache:'no-store'}),fetch(REMOTE,{cache:'no-store'})]);if(!a.ok||!b.ok)throw new Error();
+  const repo=await a.json(),cfg=await b.json();Object.assign(online,cfg);
+  document.getElementById('dot').classList.add('on');document.getElementById('onlineText').textContent='ONLINE';document.getElementById('onlineNotice').textContent='🟢 GitHubへ接続成功 / '+repo.full_name;
+ }catch(e){document.getElementById('onlineNotice').textContent='🟡 オフラインモード：育成・レース・繁殖はプレイ可能'}
+ document.getElementById('news').innerHTML=(online.news||[]).map(x=>'• '+x).join('<br>');
+ render();
 }
-function render(){
- const h=horse();
- document.getElementById('money').textContent=money();document.getElementById('rank').textContent=rank();document.getElementById('wins').textContent=s.wins+'勝';
- document.getElementById('horseName').textContent=h.name;document.getElementById('age').textContent=h.age;
- document.getElementById('growth').textContent=h.condition>=80?'絶好調':h.condition>=55?'好調':h.condition>=30?'普通':'不調';
- document.getElementById('surface').textContent='芝適性 '+h.surface;document.getElementById('distance').textContent='マイル適性 '+h.distance;document.getElementById('temper').textContent='気性 '+h.temper;
- document.getElementById('avatar').textContent=h.icon;document.getElementById('stamina').textContent=Math.round(h.stamina);document.getElementById('condition').textContent=Math.round(h.condition);document.getElementById('combo').textContent=window.combo||0;document.getElementById('day').textContent=s.day+'日目';
- document.getElementById('statBars').innerHTML=fmtBar('スピード',h.stats.speed)+fmtBar('スタミナ',h.stats.stamina)+fmtBar('パワー',h.stats.power)+fmtBar('根性',h.stats.guts)+fmtBar('賢さ',h.stats.smart);
- renderRaces();renderStable();renderShop();renderRecord();document.getElementById('history').innerHTML=s.history.map(x=>'• '+x).join('<br>');
-}
-function train(){
- const h=horse();
- if(h.stamina<=2){toast('体力が足りません。休養しましょう');return}
- window.combo=(window.combo||0)+1;
- const type=['speed','stamina','power','guts','smart'][Math.floor(Math.random()*5)];
- const mult=Math.min(3,1+window.combo/20);
- h.stats[type]+=0.55*mult*(h.fatigue<45?1:0.7);
- h.exp+=1+Math.floor(mult);h.stamina-=0.55;h.fatigue=Math.min(100,h.fatigue+0.35);h.condition=Math.max(1,h.condition-0.08);
- if(h.exp>=20+h.level*6){h.exp=0;h.level++;h.age=Math.min(6,h.age+(h.level%5===0?1:0));toast('🎉 レベルアップ！ '+h.level+'！')}
- if(window.combo%15===0){h.stats[type]+=2;toast('🔥 コンボボーナス！ '+type+' +2')}
- s.score=Math.max(s.score,Math.floor(totalPower(h)*10+h.level*50+s.wins*200));save();render();
-}
-function rest(){
- const h=horse();h.stamina=Math.min(100,h.stamina+34);h.fatigue=Math.max(0,h.fatigue-30);h.condition=Math.min(100,h.condition+12);s.day++;
- if(s.day%25===0){h.age++;toast('🎂 誕生日！ '+h.age+'歳になりました')}
- window.combo=0;log('休養して翌日へ。体調が回復した。');save();render();toast('🌙 '+s.day+'日目へ');
-}
-function feed(){
- if(s.money<1000){toast('お金が足りません');return}
- const h=horse();s.money-=1000;h.condition=Math.min(100,h.condition+18);h.stamina=Math.min(100,h.stamina+10);log('特製にんじんを与えた。');save();render();toast('🥕 調子が上がった！');
-}
-function runRace(r){
- const h=horse();
- if(h.age<r.minAge){toast(r.minAge+'歳以上が必要です');return}
- const apt=r.distance==='1200'?1:h.distance==='A'?1.07:h.distance==='B'?1.02:.95;
- if(h.stamina<35){toast('体力不足です。休養してください');return}
- const fitness=totalPower(h)*apt*(h.condition/100)*(1-h.fatigue/220);
- const req=r.need;
- const roll=(Math.random()*45)-22;
- const score=fitness+roll;
- const place=score>req+22?1:score>req+12?2:score>req+4?3:score>req-4?4:score>req-14?5:6;
- const prize=Math.max(0,Math.floor(r.prize*[1,.65,.35,.2,.12,.08,0][place]));
- h.stamina=Math.max(0,h.stamina-28);h.fatigue=Math.min(100,h.fatigue+22);h.condition=Math.max(1,h.condition-10);h.races++;h.earn+=prize;s.money+=prize;
- if(place===1){h.wins++;s.wins++;s.score+=r.prize;log('🏆 '+r.name+'で優勝！ +'+money(prize));}
- else {s.places+=place<=3?1:0;log(r.name+'：'+place+'着。賞金 '+money(prize))}
- save();showRace(r,place,score,prize);render();
-}
-function showRace(r,place,score,prize){
- const back=document.getElementById('modalBack'),m=document.getElementById('modal');
- const names=['自分の馬','ブルーコメット','サンダー','ミラクル','ロイヤルスター','ホワイトフェザー'];
- m.innerHTML='<h2>🏁 '+r.name+'</h2><div class="muted">'+r.distance+'m / '+r.grade+'</div><div class="trackWrap">'+names.map((n,i)=>'<div><b>'+n+'</b><div class="trackLane"><div class="runner" style="left:'+(place===i+1?'92':(10+i*10+Math.random()*40))+'%">🐎</div><div class="finish"></div></div></div>').join('')+'</div><h2 style="text-align:center">'+(place===1?'🏆 優勝！':place+'着')+'</h2><p style="text-align:center">レース指数 '+Math.round(score)+' / 獲得賞金 <b class="prize">'+money(prize)+'</b></p><button class="primary" style="width:100%" onclick="closeModal()">戻る</button>';
- back.classList.add('show');
-}
-function closeModal(){document.getElementById('modalBack').classList.remove('show')}
-function renderRaces(){
- document.getElementById('raceList').innerHTML=races.map(r=>{const h=horse();const unlock=h.age>=r.minAge;return '<div class="race '+(!unlock?'locked':'')+'"><div class="raceTop"><div><b>'+r.bg+' '+r.name+'</b><div class="muted">'+r.grade+' / '+r.distance+'m / '+r.type+'</div></div><span class="badge">'+(unlock?'出走可能':r.minAge+'歳から')+'</span></div><div class="row" style="justify-content:space-between;margin-top:8px"><span>必要目安 '+r.need+'　🏆 <span class="prize">¥'+r.prize.toLocaleString()+'</span></span><button class="small primary" '+(unlock?'':'disabled')+' onclick="runRace(races.find(x=>x.id===\''+r.id+'\'))">出走</button></div></div>'}).join('');
-}
-function renderStable(){
- document.getElementById('stableList').innerHTML=s.horses.map((h,i)=>'<div class="miniCard" style="margin-bottom:9px;border-color:'+(i===s.selected?'#f5c75b':'#304560')+'"><div class="row"><span style="font-size:36px">'+h.icon+'</span><div><b>'+h.name+'</b><div class="muted">Lv.'+h.level+' / '+h.age+'歳 / '+h.wins+'勝 / '+money(h.earn)+'</div></div><span style="margin-left:auto"><button class="small '+(i===s.selected?'good':'')+'" onclick="selectHorse('+i+')">'+(i===s.selected?'選択中':'選ぶ')+'</button></span></div></div>').join('');
-}
-function selectHorse(i){s.selected=i;save();render();toast(horse().name+'を選択しました')}
-function buyHorse(){
- if(s.money<30000){toast('お金が足りません');return}
- const pool=[['ブルーロード','🐴','B','A','C'],['プリズムスター','🦓','A','B','B'],['ゴールドウィング','🐎','A','A','C'],['ナイトベル','🦄','B','A','A']];
- const p=pool[Math.floor(Math.random()*pool.length)],h=newHorse(s.nextId++,p[0],p[1],{speed:45+Math.random()*15,stamina:43+Math.random()*16,power:42+Math.random()*17,guts:40+Math.random()*14,smart:42+Math.random()*16},p[2],p[3],p[4]);
- s.money-=30000;s.horses.push(h);s.selected=s.horses.length-1;log('新馬 '+h.name+' を購入。');save();render();toast('🎁 '+h.name+' が厩舎に加入！')
-}
-const items=[{id:'book',name:'成長の指南書',price:6000,desc:'次の10回の調教経験値 +50%'},{id:'shoe',name:'軽量蹄鉄',price:4500,desc:'レース時のスタミナ消費 -6'},{id:'carrot',name:'特上にんじん×3',price:2500,desc:'回復アイテムを3個追加'}];
-function renderShop(){document.getElementById('shopList').innerHTML=items.map(i=>'<div class="miniCard"><b>'+i.name+'</b><small>'+i.desc+'</small><div class="row" style="justify-content:space-between;margin-top:10px"><span class="prize">¥'+i.price.toLocaleString()+'</span><button class="small" onclick="buyItem(\''+i.id+'\')">購入</button></div></div>').join('')}
-function buyItem(id){const it=items.find(x=>x.id===id);if(s.money<it.price){toast('お金が足りません');return}s.money-=it.price;s.items[id]=(s.items[id]||0)+(id==='carrot'?3:1);log(it.name+'を購入。');save();render();toast('🛒 購入しました')}
-function renderRecord(){document.getElementById('recordView').innerHTML='<div class="cardGrid"><div class="miniCard">🏆 優勝 <b>'+s.wins+'</b><small>通算勝利</small></div><div class="miniCard">🥉 3着以内 <b>'+s.places+'</b><small>表彰台回数</small></div><div class="miniCard">💰 獲得賞金 <b>¥'+s.horses.reduce((a,h)=>a+h.earn,0).toLocaleString()+'</b><small>厩舎合計</small></div><div class="miniCard">⭐ スコア <b>'+s.score+'</b><small>オンライン表示用</small></div></div><div class="notice" style="margin-top:12px">オンラインランキングは公開データを読み込む方式です。ブラウザから他人の順位を書き換えない安全な構成にしています。</div>'}
 
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.tabPane').forEach(p=>p.style.display='none');document.getElementById('tab-'+b.dataset.tab).style.display='block'}));
-document.getElementById('tapBtn').addEventListener('click',train);document.getElementById('restBtn').addEventListener('click',rest);document.getElementById('feedBtn').addEventListener('click',feed);document.getElementById('buyHorseBtn').addEventListener('click',buyHorse);document.getElementById('saveBtn').addEventListener('click',()=>{save();toast('💾 セーブしました')});document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('本当に初期化しますか？')){localStorage.removeItem(KEY);location.reload()}});document.getElementById('modalBack').addEventListener('click',e=>{if(e.target.id==='modalBack')closeModal()});
-document.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();train()}});
-window.addEventListener('blur',()=>{window.combo=0;render()});
+function startRace(r){
+ const h=horse();if(h.age<r.minAge){toast(r.minAge+'歳から出走できます');return}if(h.stamina<30){toast('体力不足。休養してください');return}
+ const j=jockeys.find(x=>x.id===s.jockeyId),t=trainers.find(x=>x.id===s.trainerId);
+ const isOverseas=r.region==='海外';
+ const rivalBase=['ブルーコメット','ミラクルスター','サンダーラン','ロイヤルキング','ホワイトフェザー','レッドブレイズ','グリーンリーフ'];
+ const names=[h.name,...rivalBase].slice(0,8);
+ const runners=names.map((name,i)=>{
+  const isPlayer=i===0;const baseScore=isPlayer?totalPower(h)+j.boost+t.boost:(70+Math.random()*65);
+  const style=['逃げ','先行','差し','追込'][i%4];
+  return {name,isPlayer,icon:isPlayer?h.icon:'🐎',score:baseScore*(0.9+Math.random()*.2),progress:0,style,lane:i};
+ });
+ const modal=document.getElementById('modal'),back=document.getElementById('modalBack');
+ modal.innerHTML='<div class="modalHead"><h2>🏁 LIVE RACE — '+r.name+'</h2><button class="tiny soft" id="closeRace">閉じる</button></div><div class="small muted">'+r.country+' / '+r.region+' / '+r.distance+'m / '+r.surface+' / '+r.grade+'</div><div class="raceScene"><div class="raceCourse">'+runners.map(x=>'<div class="trackLane2"><span class="trackLabel">'+(x.lane+1)+'番 '+x.style+'</span><div class="racer" id="runner-'+x.lane+'">'+x.icon+'</div><div class="racerLabel" id="label-'+x.lane+'">'+x.name+'</div></div>').join('')+'<div class="startLine"></div><div class="finishLine"></div></div><div class="commentary" id="commentary">ゲートイン完了。スタートを待っています！</div><div class="positions" id="positions"></div></div><div id="raceResult"></div>';
+ back.classList.add('show');document.getElementById('closeRace').onclick=()=>back.classList.remove('show');
+ let start=performance.now()+900,lastComment=-1,done=false;
+ function tick(now){
+   if(!back.classList.contains('show')||done)return;
+   if(now<start){requestAnimationFrame(tick);return}
+   const elapsed=now-start,sec=elapsed/1000;
+   runners.forEach(x=>{
+     const staminaPenalty=x.isPlayer?h.fatigue*.002:Math.random()*.006;
+     const pace=x.score*(1-staminaPenalty);
+     const p=Math.min(1,pace/155*sec + .015*Math.sin(sec*3+x.lane));
+     x.progress=Math.min(1,p);
+     const el=document.getElementById('runner-'+x.lane);if(el)el.style.transform='translateX('+Math.max(0,Math.min(760,x.progress*650))+'px)';
+     const lab=document.getElementById('label-'+x.lane);if(lab)lab.style.transform='translateX('+Math.max(0,Math.min(760,x.progress*650))+'px)';
+   });
+   const sorted=[...runners].sort((a,b)=>b.progress-a.progress);
+   const leader=sorted[0],second=sorted[1];
+   if(Math.floor(sec*2)!==lastComment){lastComment=Math.floor(sec*2);const phrases=sec<1.5?'スタート！全馬きれいに飛び出しました！':sec<3?'先頭は'+leader.name+'！':sec<5?'中盤、'+second.name+'が一気に差を詰める！':sec<7?'最後の直線！'+(leader.isPlayer?'あなたの馬が先頭争い！':'先頭争いは大混戦！'):'ゴール目前！';document.getElementById('commentary').textContent=phrases}
+   document.getElementById('positions').innerHTML=sorted.slice(0,6).map((x,i)=>'<div class="posCard"><b>'+(i+1)+'着 '+x.name+'</b><span>'+Math.round(x.progress*100)+'%</span></div>').join('');
+   if(elapsed>=8500||sorted.filter(x=>x.progress>=1).length>=5){finishRace(r,sorted,j,t);done=true;return}
+   requestAnimationFrame(tick);
+ }
+ requestAnimationFrame(tick);
+}
+function finishRace(r,sorted,j,t){
+ const h=horse();const place=sorted.findIndex(x=>x.isPlayer)+1;
+ const purse=[r.prize,Math.floor(r.prize*.65),Math.floor(r.prize*.38),Math.floor(r.prize*.22),Math.floor(r.prize*.14),Math.floor(r.prize*.1),Math.floor(r.prize*.06),0][place-1]||0;
+ h.stamina=Math.max(0,h.stamina-(s.items.shoe>0?22:28));if(s.items.shoe>0)s.items.shoe--;h.fatigue=Math.min(100,h.fatigue+20);h.condition=Math.max(1,h.condition-9);h.races++;h.earn+=purse;s.money+=purse;
+ if(place===1){h.wins++;s.wins++;s.score+=r.prize;log('🏆 '+r.name+'で優勝！ 賞金 '+money(purse));}
+ else {if(place<=3)s.places++;log(r.name+' '+place+'着。賞金 '+money(purse))}
+ const result=document.getElementById('raceResult');result.innerHTML='<div class="resultBanner">'+(place===1?'🏆 優勝！':place+'着')+'　/　賞金 <span class="price">'+money(purse)+'</span><div class="small" style="margin-top:5px">騎手 '+j.name+' / 調教師 '+t.name+'</div><button class="primary" style="margin-top:9px" id="raceDone">レースを終了</button></div>';document.getElementById('raceDone').onclick=()=>{document.getElementById('modalBack').classList.remove('show');save();render()};
+ save();render();
+}
+
+document.getElementById('tapBtn').onclick=tapTrain;document.getElementById('restBtn').onclick=rest;document.getElementById('feedBtn').onclick=feed;
+document.getElementById('saveBtn').onclick=()=>{save();toast('💾 セーブしました')};
+document.getElementById('resetBtn').onclick=()=>{if(confirm('セーブデータを初期化しますか？')){localStorage.removeItem(KEY);location.reload()}};
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();tapTrain()}});
+window.addEventListener('blur',()=>{lastTap=0;combo=0;clearTimeout(comboTimer);render()});
+
 render();connect();
 </script>
-</body></html>
+</body>
+</html>

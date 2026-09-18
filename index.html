@@ -411,7 +411,7 @@ document.getElementById('breedBtn').addEventListener('click',()=>{
  const inheritedSkills=[...new Set([...(mare.skills||[]),...randomSkills(3)])].sort(()=>Math.random()-.5).slice(0,3);
  const child=newHorse(s.nextId++,name,Math.random()>.5?'🐎':'🦄',Math.random()>.5?'牡':'牝',childStats,Math.random()>.75?'A':mare.surface,Math.random()>.55?'A':mare.distance,Math.random()>.6?'A':'B',stud.name,mare.name,inheritedSkills);
  child.age=0;child.ageAnchorDay=s.day;child.foal=true;child.rarity=Math.random()>.82?'R':'N';child.condition=90;child.stamina=100;child.level=1;
- s.horses.push(child);s.selected=s.horses.length-1;s.day+=30;log('🧬 '+mare.name+'に'+stud.name+'を種付け。子馬 '+child.name+' が誕生！');save();render();toast('🍼 新しい子馬が誕生！ '+child.name);
+ s.horses.push(child);s.selected=s.horses.length-1;s.day+=30;child.ageAnchorDay=s.day;advanceAges(30);log('🧬 '+mare.name+'に'+stud.name+'を種付け。子馬 '+child.name+' が誕生！');save();render();toast('🍼 新しい子馬が誕生！ '+child.name);
  showTab('stable');
 });
 

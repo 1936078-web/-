@@ -50,11 +50,18 @@ footer{text-align:center;color:#8a99a8;font-size:10px;padding:15px}
 .toast{position:fixed;left:50%;bottom:18px;z-index:50;transform:translate(-50%,20px);opacity:0;padding:10px 17px;border-radius:999px;background:#172535;color:white;box-shadow:var(--shadow);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
 .modalBack{display:none;position:fixed;inset:0;background:#07111dcc;z-index:40;align-items:center;justify-content:center;padding:12px}.modalBack.show{display:flex}
 .modal{width:min(1050px,100%);max-height:94vh;overflow:auto;background:white;border-radius:18px;border:1px solid #d6dee8;box-shadow:0 25px 70px rgba(0,0,0,.3);padding:16px}.modalHead{display:flex;justify-content:space-between;align-items:center}.modalHead h2{margin:0}
-.raceScene{margin-top:10px;background:linear-gradient(#93c8f0 0 40%,#9bd27d 40% 100%);border-radius:16px;padding:13px;border:1px solid #a9c2d7;position:relative;overflow:hidden}
-.raceCourse{height:345px;background:repeating-linear-gradient(0deg,#3c8a4d 0 37px,#438f51 37px 74px);border:5px solid #f2f4f7;border-radius:13px;box-shadow:inset 0 0 0 4px #2c6c3b;position:relative}
-.trackLane2{height:38px;border-bottom:1px dashed #d5f2d9;position:relative}.trackLabel{position:absolute;left:7px;top:8px;color:#e8fff0;font-size:11px;opacity:.85}
-.finishLine{position:absolute;right:58px;top:0;bottom:0;width:10px;background:repeating-linear-gradient(0deg,#fff 0 8px,#111 8px 16px);opacity:.8}.startLine{position:absolute;left:28px;top:0;bottom:0;border-left:4px solid #fff9}
-.racer{position:absolute;left:32px;top:3px;font-size:29px;will-change:transform}.racerLabel{position:absolute;left:64px;top:11px;background:#172535cc;color:#fff;border-radius:5px;padding:2px 4px;font-size:9px;white-space:nowrap}
+.raceScene{margin-top:10px;background:linear-gradient(#8fcaf2 0 42%,#91cb79 42% 100%);border-radius:16px;padding:13px;border:1px solid #a9c2d7;position:relative;overflow:hidden}
+.raceCourse{height:400px;position:relative;border-radius:16px;background:linear-gradient(#69b8e7 0 31%,#78bb67 31%);overflow:hidden}
+.ovalOuter{position:absolute;left:6%;right:6%;top:9%;bottom:9%;border:48px solid #5a9e58;border-radius:50%;box-shadow:inset 0 0 0 2px #dff5d7,0 0 0 2px #2d7038}
+.ovalInner{position:absolute;left:17%;right:17%;top:22%;bottom:22%;border:4px solid #dcefd8;border-radius:50%;background:#8bcf75}
+.rail{position:absolute;left:3%;right:3%;top:6%;bottom:6%;border:3px solid #edf7ed;border-radius:50%;pointer-events:none}
+.finishMark{position:absolute;left:50%;top:5%;transform:translateX(-50%);width:84px;height:20px;background:repeating-linear-gradient(90deg,#fff 0 10px,#222 10px 20px);border:2px solid #fff;border-radius:4px;z-index:4}
+.startMark{position:absolute;left:50%;bottom:5%;transform:translateX(-50%);height:28px;border-left:4px solid #fff;border-right:4px solid #fff;z-index:3}
+.raceLabel{position:absolute;left:50%;top:1.5%;transform:translateX(-50%);font-weight:950;color:#17344a;background:#ffffffcc;padding:3px 9px;border-radius:999px;font-size:11px;z-index:5}
+.racer{position:absolute;font-size:28px;will-change:transform;z-index:6;filter:drop-shadow(0 2px 1px #0004)}
+.racerLabel{position:absolute;background:#172535dd;color:#fff;border-radius:5px;padding:2px 5px;font-size:9px;white-space:nowrap;transform:translate(18px,-2px);z-index:7}
+.skillPop{position:absolute;z-index:10;background:#fff8da;color:#7b5a10;border:1px solid #e3c66d;border-radius:999px;padding:3px 6px;font-weight:900;font-size:10px;animation:skillPop .9s ease-out forwards;pointer-events:none}
+@keyframes skillPop{0%{opacity:0;transform:translateY(5px) scale(.8)}20%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-20px) scale(1.04)}}
 .commentary{margin-top:10px;background:#101b29;color:white;border-radius:12px;padding:9px 12px;font-size:13px;min-height:38px}
 .positions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.posCard{background:#f5f7fa;border:1px solid var(--line);padding:8px;border-radius:10px;font-size:11px}.posCard b{display:block;font-size:12px}
 .resultBanner{margin-top:11px;border-radius:12px;padding:12px;text-align:center;background:#fff6d9;border:1px solid #e9d091;font-weight:950}
@@ -388,42 +395,97 @@ async function connect(){
  render();
 }
 
+function raceSkillEffect(runner,progress){
+ let mult=1;runner.skillFlash='';
+ const p=progress;
+ const corner=(p>0.08&&p<0.24)||(p>0.51&&p<0.70);
+ if(runner.skills.includes('corner')&&corner){mult*=1.14;runner.skillFlash='コーナー巧者';}
+ if(runner.skills.includes('start')&&p<0.11){mult*=1.18;runner.skillFlash='好スタート';}
+ if(runner.skills.includes('stretch')&&p>0.80){mult*=1.18;runner.skillFlash='直線加速';}
+ if(runner.skills.includes('stamina')&&p>0.62){mult*=1.10;runner.skillFlash='ロングスパート';}
+ if(runner.skills.includes('turbo')&&p>0.68&&!runner.turboUsed){mult*=1.26;runner.turboUsed=true;runner.skillFlash='瞬発力';}
+ return mult;
+}
+function showSkillFlash(scene,runner){
+ if(!runner.skillFlash)return;
+ const x=document.createElement('div');
+ x.className='skillPop';x.textContent='✨ '+runner.skillFlash;
+ x.style.left=runner.px+'px';x.style.top=(runner.py-18)+'px';
+ scene.appendChild(x);runner.skillFlash='';
+ setTimeout(()=>x.remove(),800);
+}
 function startRace(r){
- const h=horse();if(h.age<r.minAge){toast(r.minAge+'歳から出走できます');return}if(h.stamina<30){toast('体力不足。休養してください');return}
+ const h=horse();
+ if(h.age<r.minAge){toast(r.minAge+'歳から出走できます');return}
+ if(h.stamina<30){toast('体力不足。休養してください');return}
  const j=jockeys.find(x=>x.id===s.jockeyId),t=trainers.find(x=>x.id===s.trainerId);
- const isOverseas=r.region==='海外';
- const rivalBase=['ブルーコメット','ミラクルスター','サンダーラン','ロイヤルキング','ホワイトフェザー','レッドブレイズ','グリーンリーフ'];
- const names=[h.name,...rivalBase].slice(0,8);
+ const names=[h.name,'ブルーコメット','ミラクルスター','サンダーラン','ロイヤルキング','ホワイトフェザー','レッドブレイズ','グリーンリーフ'].slice(0,8);
  const runners=names.map((name,i)=>{
-  const isPlayer=i===0;const baseScore=isPlayer?totalPower(h)+j.boost+t.boost:(70+Math.random()*65);
-  const style=['逃げ','先行','差し','追込'][i%4];
-  return {name,isPlayer,icon:isPlayer?h.icon:'🐎',score:baseScore*(0.9+Math.random()*.2),progress:0,style,lane:i};
+   const isPlayer=i===0;
+   return {
+     name,isPlayer,icon:isPlayer?h.icon:'🐎',
+     score:(isPlayer?totalPower(h)+j.boost+t.boost:70+Math.random()*65)*(0.96+Math.random()*.10),
+     progress:0,style:['逃げ','先行','差し','追込'][i%4],lane:i,
+     skills:isPlayer?(h.skills||[]):randomSkills(2),px:0,py:0,lastFlash:0,turboUsed:false,skillFlash:''
+   };
  });
  const modal=document.getElementById('modal'),back=document.getElementById('modalBack');
- modal.innerHTML='<div class="modalHead"><h2>🏁 LIVE RACE — '+r.name+'</h2><button class="tiny soft" id="closeRace">閉じる</button></div><div class="small muted">'+r.country+' / '+r.region+' / '+r.distance+'m / '+r.surface+' / '+r.grade+'</div><div class="raceScene"><div class="raceCourse">'+runners.map(x=>'<div class="trackLane2"><span class="trackLabel">'+(x.lane+1)+'番 '+x.style+'</span><div class="racer" id="runner-'+x.lane+'">'+x.icon+'</div><div class="racerLabel" id="label-'+x.lane+'">'+x.name+'</div></div>').join('')+'<div class="startLine"></div><div class="finishLine"></div></div><div class="commentary" id="commentary">ゲートイン完了。スタートを待っています！</div><div class="positions" id="positions"></div></div><div id="raceResult"></div>';
- back.classList.add('show');document.getElementById('closeRace').onclick=()=>back.classList.remove('show');
- let start=performance.now()+900,lastComment=-1,done=false;
+ modal.innerHTML='<div class="modalHead"><h2>🏁 LIVE RACE — '+r.name+'</h2><button class="tiny soft" id="closeRace">閉じる</button></div><div class="small muted">'+r.country+' / '+r.region+' / '+r.distance+'m / '+r.surface+' / '+r.grade+'</div><div class="raceScene"><div class="raceCourse" id="raceCourse"><div class="raceLabel">FINISH ⬛⬜</div><div class="ovalOuter"></div><div class="ovalInner"></div><div class="rail"></div><div class="finishMark"></div><div class="startMark"></div>'+runners.map(x=>'<div class="racer" id="runner-'+x.lane+'">'+x.icon+'<span class="racerLabel" id="label-'+x.lane+'">'+(x.lane+1)+'番 '+x.name+'</span></div>').join('')+'</div><div class="commentary" id="commentary">ゲートイン完了。画面下のスタートからコースを1周します。</div><div class="positions" id="positions"></div></div><div id="raceResult"></div>';
+ back.classList.add('show');
+ document.getElementById('closeRace').onclick=()=>back.classList.remove('show');
+
+ const course=document.getElementById('raceCourse');
+ let start=performance.now()+1000,lastComment=-1,lastFrame=start,done=false;
+
+ function place(x){
+   const w=course.clientWidth,hh=course.clientHeight,cx=w/2,cy=hh/2;
+   const laneOffset=(x.lane-3.5)*7;
+   const rx=Math.max(105,w*.37-laneOffset),ry=Math.max(120,hh*.35-laneOffset*.35);
+   const theta=Math.PI/2+x.progress*Math.PI*2;
+   x.px=cx+rx*Math.cos(theta)-14;
+   x.py=cy+ry*Math.sin(theta)-14;
+   const el=document.getElementById('runner-'+x.lane);
+   if(el)el.style.transform='translate('+x.px+'px,'+x.py+'px)';
+ }
+ runners.forEach(place);
+
  function tick(now){
    if(!back.classList.contains('show')||done)return;
    if(now<start){requestAnimationFrame(tick);return}
-   const elapsed=now-start,sec=elapsed/1000;
+   const dt=Math.min(.045,(now-lastFrame)/1000);lastFrame=now;
+   const elapsed=(now-start)/1000;
    runners.forEach(x=>{
-     const staminaPenalty=x.isPlayer?h.fatigue*.002:Math.random()*.006;
-     const pace=x.score*(1-staminaPenalty);
-     const p=Math.min(1,(0.07+pace/2500)*sec + .006*Math.sin(sec*2+x.lane));
-     x.progress=Math.min(1,p);
-     const el=document.getElementById('runner-'+x.lane);if(el)el.style.transform='translateX('+Math.max(0,Math.min(760,x.progress*650))+'px)';
-     const lab=document.getElementById('label-'+x.lane);if(lab)lab.style.transform='translateX('+Math.max(0,Math.min(760,x.progress*650))+'px)';
+     const mult=raceSkillEffect(x,x.progress);
+     const fatigue=x.isPlayer?h.fatigue*.0013:0;
+     const speed=(x.score/110)*(1-fatigue)*mult;
+     x.progress=Math.min(1,x.progress+dt*speed*.075);
+     place(x);
+     if(x.skillFlash&&now-x.lastFlash>550){x.lastFlash=now;showSkillFlash(course,x)}
    });
+
    const sorted=[...runners].sort((a,b)=>b.progress-a.progress);
-   const leader=sorted[0],second=sorted[1];
-   if(Math.floor(sec*2)!==lastComment){lastComment=Math.floor(sec*2);const phrases=sec<1.5?'スタート！全馬きれいに飛び出しました！':sec<3?'先頭は'+leader.name+'！':sec<5?'中盤、'+second.name+'が一気に差を詰める！':sec<7?'最後の直線！'+(leader.isPlayer?'あなたの馬が先頭争い！':'先頭争いは大混戦！'):'ゴール目前！';document.getElementById('commentary').textContent=phrases}
-   document.getElementById('positions').innerHTML=sorted.slice(0,6).map((x,i)=>'<div class="posCard"><b>'+(i+1)+'着 '+x.name+'</b><span>'+Math.round(x.progress*100)+'%</span></div>').join('');
-   if(elapsed>=8500||sorted.filter(x=>x.progress>=1).length>=5){finishRace(r,sorted,j,t);done=true;return}
+   if(Math.floor(elapsed*2)!==lastComment){
+     lastComment=Math.floor(elapsed*2);
+     const lead=sorted[0],second=sorted[1];
+     let msg=elapsed<1.8?'スタート！ '+lead.name+'が飛び出した！':
+             elapsed<3.8?'第1コーナー！ '+lead.name+'が先頭、'+second.name+'が続く！':
+             elapsed<5.7?'向正面を通過。各馬まだ手応えは十分！':
+             elapsed<7.8?'第3コーナー！ '+(lead.isPlayer?'あなたの馬が進出！':lead.name+'がペースアップ！'):
+             '最後の直線！ ゴールまであとわずか！';
+     document.getElementById('commentary').textContent=msg;
+   }
+   document.getElementById('positions').innerHTML=sorted.slice(0,6).map((x,i)=>'<div class="posCard"><b>'+(i+1)+'着 '+x.name+'</b><span>'+Math.round(x.progress*100)+'%　'+skillNames(x.skills).slice(0,2).join(' / ')+'</span></div>').join('');
+
+   if(sorted[0].progress>=1){
+     runners.forEach(x=>{x.progress=1;place(x)});
+     document.getElementById('commentary').textContent='🏁 ゴール！ 全馬がゴールラインを通過しました！';
+     finishRace(r,sorted,j,t);done=true;return;
+   }
    requestAnimationFrame(tick);
  }
  requestAnimationFrame(tick);
 }
+
 function finishRace(r,sorted,j,t){
  const h=horse();const place=sorted.findIndex(x=>x.isPlayer)+1;
  const purse=[r.prize,Math.floor(r.prize*.65),Math.floor(r.prize*.38),Math.floor(r.prize*.22),Math.floor(r.prize*.14),Math.floor(r.prize*.1),Math.floor(r.prize*.06),0][place-1]||0;

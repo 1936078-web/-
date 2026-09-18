@@ -241,7 +241,7 @@ history:['Day 1：スターライトを預かりました。'],items:{carrot:0,b
 };
 
 function newHorse(id,name,icon,sex,stats,surface='A',distance='A',temper='B',sire=null,dam=null,skills=null){
- return {id,name,icon,sex,age:2,ageAnchorDay:s.day,exp:0,level:1,stamina:100,condition:78,fatigue:8,stats,surface,distance,temper,races:0,wins:0,earn:0,skills:skills||randomSkills(2),sire,dam,rarity:'N',foal:false,trainingLoad:0,awakeningDay:0,awakeningUsed:false};
+ return {id,name,icon,sex,age:2,ageAnchorDay:0,exp:0,level:1,stamina:100,condition:78,fatigue:8,stats,surface,distance,temper,races:0,wins:0,earn:0,skills:skills||randomSkills(2),sire,dam,rarity:'N',foal:false,trainingLoad:0,awakeningDay:0,awakeningUsed:false};
 }
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
 let s=load()||defaultState;
@@ -418,7 +418,7 @@ document.getElementById('breedBtn').addEventListener('click',()=>{
 document.getElementById('buyHorseBtn').addEventListener('click',()=>{
  if(s.money<30000){toast('お金が足りません');return}
  const female=Math.random()>.45, pool=female?[['ブルームレディ','🐴'],['ミスティリリー','🦄'],['サクラノアール','🐎']][Math.floor(Math.random()*3)]:[['ブルーロード','🐴'],['ゴールドウィング','🐎'],['ナイトベル','🦄']][Math.floor(Math.random()*3)];
- const h=newHorse(s.nextId++,pool[0],pool[1],female?'牝':'牡',{speed:45+Math.random()*18,stamina:43+Math.random()*18,power:42+Math.random()*18,guts:40+Math.random()*17,smart:42+Math.random()*18},Math.random()>.5?'A':'B',Math.random()>.45?'A':'B',Math.random()>.5?'A':'B',null,null,randomSkills(2));
+ const h=newHorse(s.nextId++,pool[0],pool[1],female?'牝':'牡',{speed:45+Math.random()*18,stamina:43+Math.random()*18,power:42+Math.random()*18,guts:40+Math.random()*17,smart:42+Math.random()*18},Math.random()>.5?'A':'B',Math.random()>.45?'A':'B',Math.random()>.5?'A':'B',null,null,randomSkills(2)); h.ageAnchorDay=s.day;
  s.money-=30000;s.horses.push(h);s.selected=s.horses.length-1;log('新馬 '+h.name+'（'+h.sex+'）を購入。');save();render();toast('🐴 '+h.name+' を迎えた！');showTab('stable');
 });
 

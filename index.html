@@ -93,7 +93,7 @@ footer{text-align:center;color:#8a99a8;font-size:10px;padding:15px}
         <div class="horseTitle"><div class="horseName" id="horseName">スターライト</div><span class="sexBadge" id="sex"></span></div>
         <div class="meta muted">年齢 <b id="age">2</b>歳　/　Lv.<b id="level">1</b>　/　体調 <b id="condition">78</b></div>
         <div class="chips" id="chips"></div>
-        <div class="stats" id="stats"></div>
+        <div class="stats" id="stats"></div><div style="margin-top:10px"><b style="font-size:12px">✨ スキル</b><div class="chips" id="skillTags"></div></div>
       </div>
     </div>
     <div class="tapArea">
@@ -201,6 +201,20 @@ const trainers=[
 {id:'t1',name:'青木 恒一',special:'成長',boost:7,fee:5000},{id:'t2',name:'黒田 恒一',special:'芝',boost:10,fee:8000},
 {id:'t3',name:'白石 彩',special:'海外',boost:13,fee:12000},{id:'t4',name:'東雲 蓮',special:'万能',boost:16,fee:18000}
 ];
+const skillCatalog=[
+{id:'corner',name:'コーナー巧者',desc:'コーナーで速度が上がる'},
+{id:'start',name:'好スタート',desc:'スタート直後に加速する'},
+{id:'stretch',name:'直線加速',desc:'最後の直線で伸びる'},
+{id:'stamina',name:'ロングスパート',desc:'終盤でも速度が落ちにくい'},
+{id:'turbo',name:'瞬発力',desc:'終盤に一気に加速する'}
+];
+function randomSkills(count=2){
+ const pool=[...skillCatalog],out=[];
+ while(out.length<Math.min(count,pool.length)) out.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0].id);
+ return out;
+}
+function skillNames(ids=[]){return ids.map(id=>skillCatalog.find(x=>x.id===id)?.name||id)}
+
 const studs=[
 {id:'s1',name:'ロイヤルハーツ',icon:'🐎',stats:{speed:78,stamina:72,power:70,guts:68,smart:75},surface:'A',distance:'A',temper:'B',line:'ロイヤル系',fee:10000},
 {id:'s2',name:'サンダーキング',icon:'🦄',stats:{speed:88,stamina:62,power:82,guts:74,smart:67},surface:'B',distance:'A',temper:'C',line:'サンダー系',fee:14000},
@@ -214,8 +228,8 @@ horses:[newHorse(1,'スターライト','🐎','牡',{speed:52,stamina:47,power:
 history:['Day 1：スターライトを預かりました。'],items:{carrot:0,book:0,shoe:0},facilities:{track:0,stable:0},
 };
 
-function newHorse(id,name,icon,sex,stats,surface='A',distance='A',temper='B',sire=null,dam=null){
- return {id,name,icon,sex,age:2,exp:0,level:1,stamina:100,condition:78,fatigue:8,stats,surface,distance,temper,races:0,wins:0,earn:0,skills:[],sire,dam,rarity:'N',foal:false};
+function newHorse(id,name,icon,sex,stats,surface='A',distance='A',temper='B',sire=null,dam=null,skills=null){
+ return {id,name,icon,sex,age:2,exp:0,level:1,stamina:100,condition:78,fatigue:8,stats,surface,distance,temper,races:0,wins:0,earn:0,skills:skills||randomSkills(2),sire,dam,rarity:'N',foal:false};
 }
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
 let s=load()||defaultState;
@@ -224,7 +238,7 @@ function normalize(){
  s.selected=Math.min(s.selected||0,s.horses.length-1);s.money=s.money??50000;s.day=s.day||1;s.wins=s.wins||0;s.places=s.places||0;s.score=s.score||0;s.points=s.points||0;
  s.items=s.items||{carrot:0,book:0,shoe:0};s.predictionDone=s.predictionDone||{};s.history=s.history||[];
  s.jockeyId=s.jockeyId||'j1';s.trainerId=s.trainerId||'t1';s.selectedSire=s.selectedSire||'s1';s.facilities=s.facilities||{track:0,stable:0};
- s.horses.forEach(h=>{h.stats=h.stats||{speed:45,stamina:45,power:45,guts:45,smart:45};h.exp=h.exp||0;h.level=h.level||1;h.stamina=h.stamina??100;h.condition=h.condition??78;h.fatigue=h.fatigue??8;h.races=h.races||0;h.wins=h.wins||0;h.earn=h.earn||0;h.sex=h.sex||'牡';h.foal=!!h.foal});
+ s.horses.forEach(h=>{h.stats=h.stats||{speed:45,stamina:45,power:45,guts:45,smart:45};h.exp=h.exp||0;h.level=h.level||1;h.stamina=h.stamina??100;h.condition=h.condition??78;h.fatigue=h.fatigue??8;h.races=h.races||0;h.wins=h.wins||0;h.earn=h.earn||0;h.sex=h.sex||'牡';h.foal=!!h.foal;h.skills=Array.isArray(h.skills)&&h.skills.length?h.skills:randomSkills(2)});
 }
 normalize();
 const online={event:'秋のスピード育成キャンペーン',bonus:1.15,news:['オンライン情報を読み込めませんでした。ローカルでも全機能をプレイできます。'],leaderboard:[['Riku','1560'],['HorseFan','1420'],['Taka','1280'],['Runner','1120'],['UmaMaster','980']],tournament:{name:'NEXTワールドカップ',goal:'今週の通算賞金と大会スコアで競争',bonus:1.2}};
@@ -252,6 +266,7 @@ function render(){
  document.getElementById('stamina').textContent=Math.round(h.stamina);document.getElementById('fatigue').textContent=Math.round(h.fatigue);document.getElementById('day').textContent=s.day+'日目';
  document.getElementById('chips').innerHTML=['芝適性 '+h.surface,'距離適性 '+h.distance,'気性 '+h.temper,'騎手 '+j.name,'調教師 '+t.name].map(x=>'<span class="chip">'+x+'</span>').join('');
  document.getElementById('stats').innerHTML=statBar('スピード',h.stats.speed)+statBar('スタミナ',h.stats.stamina)+statBar('パワー',h.stats.power)+statBar('根性',h.stats.guts)+statBar('賢さ',h.stats.smart);
+ document.getElementById('skillTags').innerHTML=(h.skills||[]).map(id=>'<span class="chip">✨ '+(skillCatalog.find(x=>x.id===id)?.name||id)+'</span>').join('');
  document.getElementById('comboNum').textContent=combo;document.getElementById('comboFill').style.width=Math.min(100,combo*4)+'%';
  document.getElementById('eventBadge').textContent=online.event||'通常開催';
  renderRaces();renderBreeding();renderStable();renderStaff();renderShop();renderRecord();renderTournament();
@@ -315,7 +330,8 @@ document.getElementById('breedBtn').addEventListener('click',()=>{
  const childStats={};Object.keys(stud.stats).forEach(k=>childStats[k]=Math.max(35,Math.round((stud.stats[k]+mare.stats[k])/2+(Math.random()*10-5))));
  const names=['ブレイブアロー','ルミナスベル','スタークレスト','ミッドナイト','グロリアス'];
  const name=names[Math.floor(Math.random()*names.length)]+' '+(s.nextId);
- const child=newHorse(s.nextId++,name,Math.random()>.5?'🐎':'🦄',Math.random()>.5?'牡':'牝',childStats,Math.random()>.75?'A':mare.surface,Math.random()>.55?'A':mare.distance,Math.random()>.6?'A':'B',stud.name,mare.name);
+ const inheritedSkills=[...new Set([...(mare.skills||[]),...randomSkills(3)])].sort(()=>Math.random()-.5).slice(0,3);
+ const child=newHorse(s.nextId++,name,Math.random()>.5?'🐎':'🦄',Math.random()>.5?'牡':'牝',childStats,Math.random()>.75?'A':mare.surface,Math.random()>.55?'A':mare.distance,Math.random()>.6?'A':'B',stud.name,mare.name,inheritedSkills);
  child.age=0;child.foal=true;child.rarity=Math.random()>.82?'R':'N';child.condition=90;child.stamina=100;child.level=1;
  s.horses.push(child);s.selected=s.horses.length-1;s.day+=30;log('🧬 '+mare.name+'に'+stud.name+'を種付け。子馬 '+child.name+' が誕生！');save();render();toast('🍼 新しい子馬が誕生！ '+child.name);
  showTab('stable');
@@ -324,7 +340,7 @@ document.getElementById('breedBtn').addEventListener('click',()=>{
 document.getElementById('buyHorseBtn').addEventListener('click',()=>{
  if(s.money<30000){toast('お金が足りません');return}
  const female=Math.random()>.45, pool=female?[['ブルームレディ','🐴'],['ミスティリリー','🦄'],['サクラノアール','🐎']][Math.floor(Math.random()*3)]:[['ブルーロード','🐴'],['ゴールドウィング','🐎'],['ナイトベル','🦄']][Math.floor(Math.random()*3)];
- const h=newHorse(s.nextId++,pool[0],pool[1],female?'牝':'牡',{speed:45+Math.random()*18,stamina:43+Math.random()*18,power:42+Math.random()*18,guts:40+Math.random()*17,smart:42+Math.random()*18},Math.random()>.5?'A':'B',Math.random()>.45?'A':'B',Math.random()>.5?'A':'B');
+ const h=newHorse(s.nextId++,pool[0],pool[1],female?'牝':'牡',{speed:45+Math.random()*18,stamina:43+Math.random()*18,power:42+Math.random()*18,guts:40+Math.random()*17,smart:42+Math.random()*18},Math.random()>.5?'A':'B',Math.random()>.45?'A':'B',Math.random()>.5?'A':'B',null,null,randomSkills(2));
  s.money-=30000;s.horses.push(h);s.selected=s.horses.length-1;log('新馬 '+h.name+'（'+h.sex+'）を購入。');save();render();toast('🐴 '+h.name+' を迎えた！');showTab('stable');
 });
 

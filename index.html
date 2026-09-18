@@ -50,14 +50,18 @@ footer{text-align:center;color:#8a99a8;font-size:10px;padding:15px}
 .toast{position:fixed;left:50%;bottom:18px;z-index:50;transform:translate(-50%,20px);opacity:0;padding:10px 17px;border-radius:999px;background:#172535;color:white;box-shadow:var(--shadow);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
 .modalBack{display:none;position:fixed;inset:0;background:#07111dcc;z-index:40;align-items:center;justify-content:center;padding:12px}.modalBack.show{display:flex}
 .modal{width:min(1050px,100%);max-height:94vh;overflow:auto;background:white;border-radius:18px;border:1px solid #d6dee8;box-shadow:0 25px 70px rgba(0,0,0,.3);padding:16px}.modalHead{display:flex;justify-content:space-between;align-items:center}.modalHead h2{margin:0}
-.raceScene{margin-top:10px;background:linear-gradient(#8fcaf2 0 42%,#91cb79 42% 100%);border-radius:16px;padding:13px;border:1px solid #a9c2d7;position:relative;overflow:hidden}
-.raceCourse{height:400px;position:relative;border-radius:16px;background:linear-gradient(#69b8e7 0 31%,#78bb67 31%);overflow:hidden}
-.ovalOuter{position:absolute;left:6%;right:6%;top:9%;bottom:9%;border:48px solid #5a9e58;border-radius:50%;box-shadow:inset 0 0 0 2px #dff5d7,0 0 0 2px #2d7038}
-.ovalInner{position:absolute;left:17%;right:17%;top:22%;bottom:22%;border:4px solid #dcefd8;border-radius:50%;background:#8bcf75}
-.rail{position:absolute;left:3%;right:3%;top:6%;bottom:6%;border:3px solid #edf7ed;border-radius:50%;pointer-events:none}
-.finishMark{position:absolute;left:50%;top:5%;transform:translateX(-50%);width:84px;height:20px;background:repeating-linear-gradient(90deg,#fff 0 10px,#222 10px 20px);border:2px solid #fff;border-radius:4px;z-index:4}
-.startMark{position:absolute;left:50%;bottom:5%;transform:translateX(-50%);height:28px;border-left:4px solid #fff;border-right:4px solid #fff;z-index:3}
-.raceLabel{position:absolute;left:50%;top:1.5%;transform:translateX(-50%);font-weight:950;color:#17344a;background:#ffffffcc;padding:3px 9px;border-radius:999px;font-size:11px;z-index:5}
+.raceScene{margin-top:10px;background:linear-gradient(#a8d7f3 0 28%,#8ac977 28% 100%);border-radius:16px;padding:13px;border:1px solid #a9c2d7;position:relative;overflow:hidden}
+.venueGuide{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.venueGuide span{background:#fff;border:1px solid #cad6e2;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:800;color:#405267}
+.raceCourse{height:430px;position:relative;border-radius:16px;background:linear-gradient(#8ed0f1 0 22%,#7fc46e 22% 100%);overflow:hidden}
+.ovalOuter{position:absolute;left:5%;right:5%;top:8%;bottom:8%;border:58px solid #b7814c;border-radius:50%;box-shadow:inset 0 0 0 3px #f4e0c6,0 0 0 3px #8c633b}
+.ovalInner{position:absolute;left:19%;right:19%;top:23%;bottom:23%;border:5px solid #efe0c9;border-radius:50%;background:#7fc46e}
+.rail{position:absolute;left:2.5%;right:2.5%;top:5%;bottom:5%;border:3px solid #fff;border-radius:50%;pointer-events:none}
+.finishMark{position:absolute;left:50%;top:6%;transform:translateX(-50%);width:95px;height:22px;background:repeating-linear-gradient(90deg,#fff 0 11px,#222 11px 22px);border:2px solid #fff;border-radius:4px;z-index:4}
+.startMark{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);height:32px;border-left:5px solid #fff;border-right:5px solid #fff;z-index:3}
+.raceLabel{position:absolute;font-weight:950;color:#19354d;background:#ffffffdd;padding:4px 9px;border-radius:999px;font-size:10px;z-index:5}
+.cornerLabel{position:absolute;font-weight:900;color:#fff;background:#7b4c27dd;padding:4px 7px;border-radius:8px;font-size:10px;z-index:5}
+.labelFinish{left:50%;top:1%;transform:translateX(-50%)}.labelStart{left:50%;bottom:1%;transform:translateX(-50%)}.labelC1{left:5%;top:24%}.labelBack{left:50%;top:24%;transform:translateX(-50%)}.labelC3{right:5%;top:24%}.labelStraight{left:50%;top:56%;transform:translateX(-50%)}
 .racer{position:absolute;font-size:28px;will-change:transform;z-index:6;filter:drop-shadow(0 2px 1px #0004)}
 .racerLabel{position:absolute;background:#172535dd;color:#fff;border-radius:5px;padding:2px 5px;font-size:9px;white-space:nowrap;transform:translate(18px,-2px);z-index:7}
 .skillPop{position:absolute;z-index:10;background:#fff8da;color:#7b5a10;border:1px solid #e3c66d;border-radius:999px;padding:3px 6px;font-weight:900;font-size:10px;animation:skillPop .9s ease-out forwards;pointer-events:none}
@@ -98,13 +102,14 @@ footer{text-align:center;color:#8a99a8;font-size:10px;padding:15px}
       <div class="horseFace" id="face">🐎</div>
       <div>
         <div class="horseTitle"><div class="horseName" id="horseName">スターライト</div><span class="sexBadge" id="sex"></span></div>
-        <div class="meta muted">年齢 <b id="age">2</b>歳　/　Lv.<b id="level">1</b>　/　体調 <b id="condition">78</b></div>
+        <div class="meta muted">年齢 <b id="age">2</b>歳　/　成長 <b id="ageProgress">0/30</b>日　/　Lv.<b id="level">1</b>　/　体調 <b id="condition">78</b></div>
         <div class="chips" id="chips"></div>
         <div class="stats" id="stats"></div><div style="margin-top:10px"><b style="font-size:12px">✨ スキル</b><div class="chips" id="skillTags"></div></div>
       </div>
     </div>
     <div class="tapArea">
       <button class="tapBtn" id="tapBtn">👆 連打で調教する！</button>
+      <button class="blue" id="limitTrainBtn" style="width:100%;margin-top:8px">⚡ 体力が尽きるまで一気にトレーニング</button>
       <div class="comboLine"><span>連打コンボ（1.4秒以内に次のタップで継続）</span><span class="comboNum" id="comboNum">0</span></div>
       <div class="comboBar"><div class="comboFill" id="comboFill"></div></div>
     </div>
@@ -236,7 +241,7 @@ history:['Day 1：スターライトを預かりました。'],items:{carrot:0,b
 };
 
 function newHorse(id,name,icon,sex,stats,surface='A',distance='A',temper='B',sire=null,dam=null,skills=null){
- return {id,name,icon,sex,age:2,exp:0,level:1,stamina:100,condition:78,fatigue:8,stats,surface,distance,temper,races:0,wins:0,earn:0,skills:skills||randomSkills(2),sire,dam,rarity:'N',foal:false};
+ return {id,name,icon,sex,age:2,ageAnchorDay:s.day,exp:0,level:1,stamina:100,condition:78,fatigue:8,stats,surface,distance,temper,races:0,wins:0,earn:0,skills:skills||randomSkills(2),sire,dam,rarity:'N',foal:false,trainingLoad:0,awakeningDay:0,awakeningUsed:false};
 }
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
 let s=load()||defaultState;
@@ -246,7 +251,8 @@ function normalize(){
  s.items=s.items||{carrot:0,book:0,shoe:0};s.predictionDone=s.predictionDone||{};s.history=s.history||[];
  s.jockeyId=s.jockeyId||'j1';s.trainerId=s.trainerId||'t1';s.selectedSire=s.selectedSire||'s1';s.facilities=s.facilities||{track:0,stable:0};
  s.horses.forEach(h=>{h.stats=h.stats||{speed:45,stamina:45,power:45,guts:45,smart:45};h.exp=h.exp||0;h.level=h.level||1;h.stamina=h.stamina??100;h.condition=h.condition??78;h.fatigue=h.fatigue??8;h.races=h.races||0;h.wins=h.wins||0;h.earn=h.earn||0;h.sex=h.sex||'牡';h.foal=!!h.foal;h.skills=Array.isArray(h.skills)&&h.skills.length?h.skills:randomSkills(2);
-  h.trainingLoad=h.trainingLoad||0;h.awakeningDay=h.awakeningDay||0;h.awakeningUsed=!!h.awakeningUsed});
+  h.trainingLoad=h.trainingLoad||0;h.awakeningDay=h.awakeningDay||0;h.awakeningUsed=!!h.awakeningUsed;
+  h.ageAnchorDay=h.ageAnchorDay??s.day;});
 }
 normalize();
 const online={event:'秋のスピード育成キャンペーン',bonus:1.15,news:['オンライン情報を読み込めませんでした。ローカルでも全機能をプレイできます。'],leaderboard:[['Riku','1560'],['HorseFan','1420'],['Taka','1280'],['Runner','1120'],['UmaMaster','980']],tournament:{name:'NEXTワールドカップ',goal:'今週の通算賞金と大会スコアで競争',bonus:1.2}};
@@ -270,7 +276,7 @@ function render(){
  const h=horse(), j=jockeys.find(x=>x.id===s.jockeyId), t=trainers.find(x=>x.id===s.trainerId);
  document.getElementById('money').textContent=money();document.getElementById('rank').textContent=rank();document.getElementById('wins').textContent=s.wins+'勝';
  document.getElementById('face').textContent=h.icon;document.getElementById('horseName').textContent=h.name;document.getElementById('sex').textContent=h.sex+' / '+(h.rarity||'N');
- document.getElementById('age').textContent=h.age;document.getElementById('level').textContent=h.level;document.getElementById('condition').textContent=Math.round(h.condition);
+ document.getElementById('age').textContent=h.age;document.getElementById('ageProgress').textContent=((s.day-(h.ageAnchorDay??s.day))%30+30)%30+'/30';document.getElementById('level').textContent=h.level;document.getElementById('condition').textContent=Math.round(h.condition);
  document.getElementById('stamina').textContent=Math.round(h.stamina);document.getElementById('fatigue').textContent=Math.round(h.fatigue);document.getElementById('day').textContent=s.day+'日目';
  document.getElementById('chips').innerHTML=['芝適性 '+h.surface,'距離適性 '+h.distance,'気性 '+h.temper,'騎手 '+j.name,'調教師 '+t.name].map(x=>'<span class="chip">'+x+'</span>').join('');
  document.getElementById('stats').innerHTML=statBar('スピード',h.stats.speed)+statBar('スタミナ',h.stats.stamina)+statBar('パワー',h.stats.power)+statBar('根性',h.stats.guts)+statBar('賢さ',h.stats.smart);
@@ -283,31 +289,49 @@ function render(){
 }
 function goalText(h){if(h.age<3)return'Lv.'+(h.level+1)+'を目指して育成。3歳になればG2クラシック杯へ挑戦できます。';if(s.wins<3)return'まずは3勝して「ベテラン馬主」を目指そう。';if(!h.foal && !s.horses.some(x=>x.sex==='牝'&&x.age>=3))return'繁殖牝馬を迎えて血統づくりを始めよう。';return'G1・海外レースで通算賞金を伸ばそう。'}
 
+function applyTraining(h,comboValue=combo){
+ if(h.stamina<2)return false;
+ const type=['speed','stamina','power','guts','smart'][Math.floor(Math.random()*5)];
+ const streak=Math.min(1.75,1+comboValue*.018);
+ const fatiguePenalty=h.fatigue<35?1:h.fatigue<60?.72:h.fatigue<80?.45:.20;
+ const loadPenalty=h.trainingLoad<12?1:h.trainingLoad<22?.75:h.trainingLoad<30?.45:.18;
+ const conditionBonus=h.condition>=75?1.05:h.condition>=50?.88:.65;
+ const eventBonus=online.bonus||1;
+ h.stats[type]+=0.105*streak*fatiguePenalty*loadPenalty*conditionBonus*eventBonus;
+ h.exp+=0.42*streak*loadPenalty;
+ h.stamina-=0.95;h.fatigue=Math.min(100,h.fatigue+.72);h.trainingLoad=Math.min(40,h.trainingLoad+.8);h.condition=Math.max(1,h.condition-.16);
+ if(comboValue>0&&comboValue%15===0)h.stats[type]+=.35;
+ if(h.exp>=42+h.level*18){
+  h.exp=0;h.level++;
+  if(h.level%8===0&&h.age<6)h.age++;
+  toast('🎉 Lv.'+h.level+'に成長！ 必要な育成量が増えます');
+ }
+ return true;
+}
 function tapTrain(){
  const h=horse(),now=performance.now();
  if(h.stamina<2){toast('❤️ 体力不足。休養しよう');return}
- if(lastTap && now-lastTap>1400)combo=0;
+ if(lastTap&&now-lastTap>1400)combo=0;
  lastTap=now;combo++;clearTimeout(comboTimer);comboTimer=setTimeout(()=>{combo=0;render()},1400);
-
- const type=['speed','stamina','power','guts','smart'][Math.floor(Math.random()*5)];
- const streak=Math.min(1.75,1+combo*.018);
- const fatiguePenalty=h.fatigue<35?1:h.fatigue<60?.72:h.fatigue<80?.45:.20;
- const loadPenalty=h.trainingLoad<12?1:h.trainingLoad<22?.75:h.trainingLoad<30?.45:.18;
- const conditionBonus=h.condition>=75?1.05:h.condition>=50?0.88:.65;
- const eventBonus=online.bonus||1;
-
- h.stats[type]+=0.105*streak*fatiguePenalty*loadPenalty*conditionBonus*eventBonus;
- h.exp+=0.42*streak*loadPenalty;
- h.stamina-=0.95;h.fatigue=Math.min(100,h.fatigue+0.72);h.trainingLoad=Math.min(40,h.trainingLoad+0.8);h.condition=Math.max(1,h.condition-0.16);
-
- if(combo%15===0){h.stats[type]+=0.35;toast('🔥 '+combo+'コンボ！ 小さな成長ボーナス！')}
- if(h.exp>=42+h.level*18){
-   h.exp=0;h.level++;
-   if(h.level%8===0&&h.age<6)h.age++;
-   toast('🎉 Lv.'+h.level+'に成長！ 必要な育成量が増えます');
- }
+ const ok=applyTraining(h,combo);
+ if(!ok)return;
+ if(combo%15===0)toast('🔥 '+combo+'コンボ！ 小さな成長ボーナス！');
  s.score=Math.max(s.score,Math.floor(totalPower(h)*10+h.level*50+s.wins*200));
  save();render();
+}
+function trainToLimit(){
+ const h=horse();
+ if(h.stamina<2){toast('❤️ 体力不足。休養しよう');return}
+ let count=0,oldCombo=combo;
+ while(h.stamina>=2&&count<140){
+  combo=Math.min(60,combo+1);
+  if(!applyTraining(h,combo))break;
+  count++;
+ }
+ combo=0;lastTap=0;clearTimeout(comboTimer);
+ s.score=Math.max(s.score,Math.floor(totalPower(h)*10+h.level*50+s.wins*200));
+ save();render();
+ toast('⚡ 限界トレーニング完了！ '+count+'回 / 残り体力 '+Math.floor(h.stamina));
 }
 function awakeningChallenge(){
  const h=horse();
@@ -331,7 +355,21 @@ function awakeningChallenge(){
  }
  save();render();
 }
-function rest(){const h=horse();h.stamina=Math.min(100,h.stamina+42);h.fatigue=Math.max(0,h.fatigue-42);h.condition=Math.min(100,h.condition+16);h.trainingLoad=0;s.day++;combo=0;lastTap=0;log('休養。疲労が抜けた。');randomEvent();save();render();toast('🛌 休養してDay '+s.day+'へ')}
+function advanceAges(days){
+ s.horses.forEach(h=>{
+  h.ageAnchorDay=h.ageAnchorDay??s.day;
+  const grown=Math.floor((s.day-h.ageAnchorDay)/30);
+  if(grown>0){
+   h.age+=grown;h.age=Math.min(15,h.age);h.ageAnchorDay+=grown*30;
+   if(grown>0)log('🎂 '+h.name+'が年齢を重ね、'+h.age+'歳になりました。');
+  }
+ });
+}
+function rest(){
+ const h=horse();
+ h.stamina=Math.min(100,h.stamina+42);h.fatigue=Math.max(0,h.fatigue-42);h.condition=Math.min(100,h.condition+16);h.trainingLoad=0;
+ s.day++;advanceAges(1);combo=0;lastTap=0;log('休養。疲労が抜けた。');randomEvent();save();render();toast('🛌 休養してDay '+s.day+'へ')
+}
 function feed(){if(s.money<1000){toast('お金が足りません');return}const h=horse();s.money-=1000;h.condition=Math.min(100,h.condition+18);h.stamina=Math.min(100,h.stamina+11);log('特製にんじんでコンディション回復。');save();render();toast('🥕 好調アップ！')}
 function randomEvent(){if(Math.random()>.28)return;const ev=[['晴天トレーニングDAY','今日の育成効率が上昇！'],['蹄のケア','疲労が少し減った。'],['ファンレター','称号ポイントを獲得！'],['臨時CMオファー','賞金相当のボーナスを獲得！']][Math.floor(Math.random()*4)];if(ev[0].includes('育成'))horse().condition=Math.min(100,horse().condition+8);if(ev[0].includes('疲労'))horse().fatigue=Math.max(0,horse().fatigue-10);if(ev[0].includes('ポイント'))s.points+=30;if(ev[0].includes('CM'))s.money+=5000;log('🎲 ランダムイベント「'+ev[0]+'」：'+ev[1])}
 
@@ -372,7 +410,7 @@ document.getElementById('breedBtn').addEventListener('click',()=>{
  const name=names[Math.floor(Math.random()*names.length)]+' '+(s.nextId);
  const inheritedSkills=[...new Set([...(mare.skills||[]),...randomSkills(3)])].sort(()=>Math.random()-.5).slice(0,3);
  const child=newHorse(s.nextId++,name,Math.random()>.5?'🐎':'🦄',Math.random()>.5?'牡':'牝',childStats,Math.random()>.75?'A':mare.surface,Math.random()>.55?'A':mare.distance,Math.random()>.6?'A':'B',stud.name,mare.name,inheritedSkills);
- child.age=0;child.foal=true;child.rarity=Math.random()>.82?'R':'N';child.condition=90;child.stamina=100;child.level=1;
+ child.age=0;child.ageAnchorDay=s.day;child.foal=true;child.rarity=Math.random()>.82?'R':'N';child.condition=90;child.stamina=100;child.level=1;
  s.horses.push(child);s.selected=s.horses.length-1;s.day+=30;log('🧬 '+mare.name+'に'+stud.name+'を種付け。子馬 '+child.name+' が誕生！');save();render();toast('🍼 新しい子馬が誕生！ '+child.name);
  showTab('stable');
 });
@@ -468,7 +506,7 @@ function startRace(r){
    };
  });
  const modal=document.getElementById('modal'),back=document.getElementById('modalBack');
- modal.innerHTML='<div class="modalHead"><h2>🏁 LIVE RACE — '+r.name+'</h2><button class="tiny soft" id="closeRace">閉じる</button></div><div class="small muted">'+r.country+' / '+r.region+' / '+r.distance+'m / '+r.surface+' / '+r.grade+'　　⏱ 長めのレース演出</div><div class="raceScene"><div class="raceCourse" id="raceCourse"><div class="raceLabel">FINISH ⬛⬜</div><div class="ovalOuter"></div><div class="ovalInner"></div><div class="rail"></div><div class="finishMark"></div><div class="startMark"></div>'+runners.map(x=>'<div class="racer" id="runner-'+x.lane+'">'+x.icon+'<span class="racerLabel" id="label-'+x.lane+'">'+(x.lane+1)+'番 '+x.name+'</span></div>').join('')+'</div><div class="commentary" id="commentary">ゲートイン。スタート後はペース・位置取り・仕掛けで展開が変わります。</div><div class="positions" id="positions"></div></div><div id="raceResult"></div>';
+ modal.innerHTML='<div class="modalHead"><h2>🏁 LIVE RACE — '+r.name+'</h2><button class="tiny soft" id="closeRace">閉じる</button></div><div class="small muted">'+r.country+' / '+r.region+' / '+r.distance+'m / '+r.surface+' / '+r.grade+'　　⏱ 長めのレース演出</div><div class="raceScene"><div class="venueGuide"><span>🟫 コース</span><span>🟩 内ラチ内側</span><span>⬛⬜ ゴール板</span><span>🔻 スタート</span></div><div class="raceCourse" id="raceCourse"><div class="raceLabel labelFinish">⬛⬜ ゴール</div><div class="cornerLabel labelC1">第1コーナー</div><div class="cornerLabel labelBack">向正面</div><div class="cornerLabel labelC3">第3コーナー</div><div class="cornerLabel labelStraight">🏁 最終直線</div><div class="raceLabel labelStart">🔻 スタート地点</div><div class="ovalOuter"></div><div class="ovalInner"></div><div class="rail"></div><div class="finishMark"></div><div class="startMark"></div>'+runners.map(x=>'<div class="racer" id="runner-'+x.lane+'">'+x.icon+'<span class="racerLabel" id="label-'+x.lane+'">'+(x.lane+1)+'番 '+x.name+'</span></div>').join('')+'</div><div class="commentary" id="commentary">コースは上がゴール、下がスタート。時計回りに1周してゴール板を通過します。スタート後はペース・位置取り・仕掛けで展開が変わります。</div><div class="positions" id="positions"></div></div><div id="raceResult"></div>';
  back.classList.add('show');
  document.getElementById('closeRace').onclick=()=>back.classList.remove('show');
 
@@ -589,7 +627,7 @@ function finishRace(r,sorted,j,t){
  save();render();
 }
 
-document.getElementById('tapBtn').onclick=tapTrain;document.getElementById('awakeningBtn').onclick=awakeningChallenge;document.getElementById('restBtn').onclick=rest;document.getElementById('feedBtn').onclick=feed;
+document.getElementById('tapBtn').onclick=tapTrain;document.getElementById('limitTrainBtn').onclick=trainToLimit;document.getElementById('awakeningBtn').onclick=awakeningChallenge;document.getElementById('restBtn').onclick=rest;document.getElementById('feedBtn').onclick=feed;
 document.getElementById('saveBtn').onclick=()=>{save();toast('💾 セーブしました')};
 document.getElementById('resetBtn').onclick=()=>{if(confirm('セーブデータを初期化しますか？')){localStorage.removeItem(KEY);location.reload()}};
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();tapTrain()}});

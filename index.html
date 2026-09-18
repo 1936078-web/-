@@ -394,7 +394,7 @@ function startRace(r){
    runners.forEach(x=>{
      const staminaPenalty=x.isPlayer?h.fatigue*.002:Math.random()*.006;
      const pace=x.score*(1-staminaPenalty);
-     const p=Math.min(1,pace/155*sec + .015*Math.sin(sec*3+x.lane));
+     const p=Math.min(1,(0.07+pace/2500)*sec + .006*Math.sin(sec*2+x.lane));
      x.progress=Math.min(1,p);
      const el=document.getElementById('runner-'+x.lane);if(el)el.style.transform='translateX('+Math.max(0,Math.min(760,x.progress*650))+'px)';
      const lab=document.getElementById('label-'+x.lane);if(lab)lab.style.transform='translateX('+Math.max(0,Math.min(760,x.progress*650))+'px)';
